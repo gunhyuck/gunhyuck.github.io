@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김민수 - 소프트웨어 개발자</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-bg: #0a0e27;
+            --light-text: #e6f7ff;
+            --accent: #64ffda;
+            --accent-teal: #4fd1c5;
+            --text-muted: #8892b0;
+            --text-secondary: #ccd6f6;
+            --navy: #0a192f;
+            --light-navy: #112240;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            color: var(--light-text);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-resume {
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-resume:hover {
+            background: rgba(100, 255, 218, 0.1);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 50px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(100, 255, 218, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-greeting {
+            color: var(--accent);
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            animation: slideInLeft 0.8s ease 0.2s backwards;
+        }
+
+        .hero h1 {
+            font-size: 80px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--light-text);
+            animation: slideInLeft 0.8s ease 0.4s backwards;
+        }
+
+        .hero h2 {
+            font-size: 80px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInLeft 0.8s ease 0.6s backwards;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 600px;
+            margin-bottom: 40px;
+            animation: slideInLeft 0.8s ease 0.8s backwards;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Sections */
+        section {
+            margin: 120px 0;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        section.in-view {
+            opacity: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .section-number {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 28px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 300px;
+            height: 1px;
+            background: var(--accent);
+            margin-left: 20px;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .about-text strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .skill {
+            color: var(--accent);
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill::before {
+            content: '▹';
+            font-size: 20px;
+        }
+
+        /* Experience Section */
+        .experience-list {
+            list-style: none;
+        }
+
+        .experience-item {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.03) 0%, transparent 100%);
+            border-left: 2px solid var(--accent-teal);
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .experience-item:hover {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, transparent 100%);
+            transform: translateX(10px);
+            border-left-color: var(--accent);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .exp-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--light-text);
+        }
+
+        .exp-company {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .exp-date {
+            color: var(--text-muted);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .exp-description {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .exp-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .exp-tag {
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 500;
+            background: rgba(100, 255, 218, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 50px;
+            justify-content: center;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-muted);
+            font-size: 14px;
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
+            margin-top: 100px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 30px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            main {
+                padding: 60px 30px;
+            }
+
+            .hero h1, .hero h2 {
+                font-size: 48px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title::after {
+                display: none;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                margin: 80px 0;
+            }
+
+            .experience-header {
+                flex-direction: column;
+            }
+
+            .exp-date {
+                white-space: normal;
+                margin-top: 5px;
+            }
+        }
+
+        /* Animations */
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(100, 255, 218, 0); }
+        }
+
+        .pulse {
+            animation: glow 2s infinite;
+        }
+
+        /* Profile Image */
+        .profile-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .profile-image:hover {
+            box-shadow: 0 30px 80px rgba(100, 255, 218, 0.3);
+            transform: translateY(-10px);
+        }
+
+        @media (max-width: 768px) {
+            .profile-image {
+                width: 250px;
+                height: 250px;
+            }
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="nav-logo">MS</a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#" class="nav-resume">Resume</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <p class="hero-greeting">안녕하세요 �</p>
+                <h1>김민수입니다.</h1>
+                <h2>소프트웨어 개발자</h2>
+                <p class="hero-subtitle">사용자에게 가치 있는 디지털 경험을 만드는 것을 즐기는 개발자입니다. 현재 웹 개발과 사용자 경험 개선에 집중하고 있습니다.</p>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">About</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>안녕하세요. 저는 소프트웨어 개발자로서 사용자에게 가치 있는 서비스를 제공하고 싶은 <strong>김민수</strong>입니다.</p>
+                    <p>대학에서 컴퓨터공학을 전공하며 프로그래밍의 기초를 다졌고, 졸업 후 2년간 <strong>스타트업에서 웹 개발</strong> 업무를 담당했습니다.</p>
+                    <p>빠르게 변화하는 IT 업계에서 새로운 기술을 학습하고 적용하는 것에 큰 흥미를 느끼며, 특히 <strong>사용자 경험을 개선하는 기술적 솔루션</strong>을 찾는 것을 좋아합니다.</p>
+                    <p>협업을 중요시 여기며, 복잡한 문제를 논리적으로 해결하고 그 과정에서 팀과 함께 성장하는 것을 추구합니다.</p>
+                </div>
+                <div>
+                    <img src="profile.png" alt="김민수 프로필" class="profile-image" />
+                </div>
+            </div>
+            <div style="margin-top: 50px;">
+                <p style="font-weight: 600; font-size: 16px; color: var(--light-text); margin-bottom: 20px;">주요 기술</p>
+                <div class="skills-grid">
+                    <div class="skill">JavaScript</div>
+                    <div class="skill">React</div>
+                    <div class="skill">TypeScript</div>
+                    <div class="skill">Node.js</div>
+                    <div class="skill">HTML & CSS</div>
+                    <div class="skill">Web API</div>
+                    <div class="skill">REST API</div>
+                    <div class="skill">Git</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Experience</h2>
+            </div>
+            <ul class="experience-list">
+                <li class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <p class="exp-title">웹 개발자</p>
+                            <p class="exp-company">스타트업 회사</p>
+                        </div>
+                        <p class="exp-date">2022 — 2024</p>
+                    </div>
+                    <p class="exp-description">빠르게 변화하는 기술 트렌드에 대응하고, 사용자 경험 개선을 위한 기술적 솔루션 구현에 참여했습니다. 풀스택 개발자로서 프론트엔드와 백엔드 구현을 담당했으며, 팀 내 코드 리뷰 및 기술 논의를 활발히 진행했습니다.</p>
+                    <div class="exp-tags">
+                        <span class="exp-tag">React</span>
+                        <span class="exp-tag">Node.js</span>
+                        <span class="exp-tag">JavaScript</span>
+                    </div>
+                </li>
+
+                <li class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <p class="exp-title">교내 해커톤 팀장</p>
+                            <p class="exp-company">대학교 3학년</p>
+                        </div>
+                        <p class="exp-date">2020</p>
+                    </div>
+                    <p class="exp-description">"지역 상권 활성화 앱"을 개발하여 우수상을 수상했습니다. 5명의 팀원을 이끌며 48시간 동안 React Native로 모바일 앱을 완성했고, 백엔드 API 설계부터 프론트엔드 구현까지 전 과정에 참여하면서 풀스택 개발 경험을 쌓았습니다.</p>
+                    <div class="exp-tags">
+                        <span class="exp-tag">React Native</span>
+                        <span class="exp-tag">API Design</span>
+                        <span class="exp-tag">Leadership</span>
+                    </div>
+                </li>
+
+                <li class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <p class="exp-title">컴퓨터공학과 학회 멘토</p>
+                            <p class="exp-company">대학교 학회</p>
+                        </div>
+                        <p class="exp-date">2017 — 2021</p>
+                    </div>
+                    <p class="exp-description">4년간 컴퓨터공학과 학회에서 활동하며 후배들에게 프로그래밍을 가르치는 멘토링을 진행했습니다. 복잡한 개념을 쉽게 설명하는 능력을 기르고, 이는 현재 팀 내 코드 리뷰와 기술 공유에 큰 도움이 되고 있습니다.</p>
+                    <div class="exp-tags">
+                        <span class="exp-tag">Mentoring</span>
+                        <span class="exp-tag">Teaching</span>
+                        <span class="exp-tag">Collaboration</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Life Philosophy Section -->
+        <section>
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Philosophy</h2>
+            </div>
+            <div style="background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, transparent 100%); border-left: 3px solid var(--accent); padding: 40px; border-radius: 8px; max-width: 800px;">
+                <p style="font-size: 24px; color: var(--light-text); font-weight: 600; margin-bottom: 20px; line-height: 1.6;">
+                    "기술은 사람을 위해 존재한다"
+                </p>
+                <p style="font-size: 16px; color: var(--text-secondary); line-height: 1.8;">
+                    개발자로서 항상 사용자의 관점에서 생각하려 노력합니다. 아무리 기술적으로 뛰어난 코드라도 실제 사용자에게 도움이 되지 않는다면 의미가 없다고 생각합니다. 사용자가 더 편리하고 효율적으로 업무를 처리할 수 있도록 돕는 것이 개발자의 사명이라고 믿습니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Character Section -->
+        <section>
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Character</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div style="background: linear-gradient(135deg, rgba(100, 255, 218, 0.05) 0%, transparent 100%); border-left: 2px solid var(--accent-teal); padding: 30px; border-radius: 8px;">
+                    <h3 style="color: var(--accent); font-size: 18px; font-weight: 600; margin-bottom: 20px;">주요 장점</h3>
+                    <ul style="list-style: none;">
+                        <li style="margin-bottom: 15px; color: var(--text-secondary); line-height: 1.6;">
+                            <span style="color: var(--accent); font-weight: 600;">꾸준한 학습 의지</span> — 새로운 기술 트렌드에 관심이 많아 개인 시간을 활용해 학습합니다.
+                        </li>
+                        <li style="margin-bottom: 15px; color: var(--text-secondary); line-height: 1.6;">
+                            <span style="color: var(--accent); font-weight: 600;">협업과 소통</span> — 팀과 원활히 소통하며 공동의 목표를 달성합니다.
+                        </li>
+                        <li style="color: var(--text-secondary); line-height: 1.6;">
+                            <span style="color: var(--accent); font-weight: 600;">문제 해결 지향적</span> — 어려운 문제에 직면해도 포기하지 않고 다양한 접근을 시도합니다.
+                        </li>
+                    </ul>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(100, 255, 218, 0.05) 0%, transparent 100%); border-left: 2px solid var(--accent-teal); padding: 30px; border-radius: 8px;">
+                    <h3 style="color: var(--accent); font-size: 18px; font-weight: 600; margin-bottom: 20px;">개선 중인 부분</h3>
+                    <ul style="list-style: none;">
+                        <li style="margin-bottom: 15px; color: var(--text-secondary); line-height: 1.6;">
+                            <span style="color: var(--accent); font-weight: 600;">완벽주의 성향</span> — 때로는 코드의 완성도에 지나치게 집착할 수 있습니다.
+                        </li>
+                        <li style="margin-bottom: 15px; color: var(--text-secondary); line-height: 1.6;">
+                            <span style="color: var(--accent); font-weight: 600;">개선 방안</span> — 우선순위를 명확히 하고 적정 수준의 완성도를 목표로 하는 연습 중입니다.
+                        </li>
+                        <li style="color: var(--text-secondary); line-height: 1.6;">
+                            <span style="color: var(--accent); font-weight: 600;">목표</span> — 일과 품질의 균형을 맞추기 위해 지속적으로 노력하고 있습니다.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" style="text-align: center; margin-top: 150px; margin-bottom: 100px;">
+            <div class="section-header" style="justify-content: center; margin-bottom: 50px;">
+                <h2 class="section-title" style="flex: 1;">연락하기</h2>
+            </div>
+            <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                새로운 기회와 협업에 항상 열려있습니다. 편하게 연락주세요!
+            </p>
+            <div class="social-links">
+                <a href="https://github.com" class="social-link" title="GitHub">
+                    <span style="font-size: 24px;">💻</span>
+                </a>
+                <a href="https://linkedin.com" class="social-link" title="LinkedIn">
+                    <span style="font-size: 24px;">💼</span>
+                </a>
+                <a href="mailto:example@email.com" class="social-link" title="Email">
+                    <span style="font-size: 24px;">✉️</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Designed & Developed by Kim Min-Su | 2026</p>
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(10, 14, 39, 0.98)';
+                nav.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            } else {
+                nav.style.background = 'rgba(10, 14, 39, 0.95)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        // Add event listeners to experience items
+        document.querySelectorAll('.experience-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(135deg, rgba(100, 255, 218, 0.15) 0%, transparent 100%)';
+            });
+            item.addEventListener('mouseleave', function() {
+                this.style.background = 'linear-gradient(135deg, rgba(100, 255, 218, 0.03) 0%, transparent 100%)';
+            });
+        });
+
+        // Console message
+        console.log(
+            '%c👨‍💻 김민수 - 소프트웨어 개발자',
+            'font-size: 20px; color: #64ffda; font-weight: bold; text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);'
+        );
+        console.log(
+            '%c좋은 디지털 경험을 만드는 것을 좋아합니다.',
+            'font-size: 14px; color: #ccd6f6;'
+        );
+    </script>
+</body>
+</html>
