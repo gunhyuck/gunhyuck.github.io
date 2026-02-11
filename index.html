@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>최건혁 - 소프트웨어 개발자</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>카림애비뉴 동탄1차 입주자카드</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        window.jsPDF = window.jspdf.jsPDF;
+    </script>
     <style>
         * {
             margin: 0;
@@ -12,737 +17,1873 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --dark-bg: #0a0e27;
-            --light-text: #e6f7ff;
-                  <div class="hero-content">
-                <p class="hero-greeting">안녕하세요 👋</p>
-                <h1>최건혁입니다.</h1>
-                <h2>소프트웨어 개발자</h2>  --accent: #64ffda;
-            --accent-teal: #4fd1c5;
-            --text-muted: #8892b0;
-            --text-secondary: #ccd6f6;
-            --navy: #0a192f;
-            --light-navy: #112240;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-secondary);
-            line-height: 1.5;
-            font-size: 16px;
-            overflow-x: hidden;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 14, 39, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
-        }
-
-        .nav-logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .nav-logo:hover {
-            color: var(--light-text);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-resume {
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 10px 20px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .nav-resume:hover {
-            background: rgba(100, 255, 218, 0.1);
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
-        }
-
-        /* Main Container */
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 100px 50px;
-        }
-
-        /* Hero Section */
-        .hero {
+            font-family: 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
             min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 24px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            position: relative;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: 0;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(100, 255, 218, 0.05) 0%, transparent 70%);
-            pointer-events: none;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(30px); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-greeting {
-            color: var(--accent);
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            animation: slideInLeft 0.8s ease 0.2s backwards;
-        }
-
-        .hero h1 {
-            font-size: 80px;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            color: var(--light-text);
-            animation: slideInLeft 0.8s ease 0.4s backwards;
-        }
-
-        .hero h2 {
-            font-size: 80px;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, var(--accent-teal), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: slideInLeft 0.8s ease 0.6s backwards;
-        }
-
-        .hero-subtitle {
-            font-size: 20px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 600px;
-            margin-bottom: 40px;
-            animation: slideInLeft 0.8s ease 0.8s backwards;
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Sections */
-        section {
-            margin: 120px 0;
-            animation: fadeInUp 0.8s ease forwards;
-            opacity: 0;
-        }
-
-        section.in-view {
-            opacity: 1;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 50px;
-        }
-
-        .section-number {
-            color: var(--accent);
-            font-weight: 700;
-            font-size: 28px;
-        }
-
-        .section-title {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--light-text);
-            display: flex;
-            align-items: center;
             gap: 15px;
         }
 
-        .section-title::after {
-            content: '';
-            width: 300px;
-            height: 1px;
-            background: var(--accent);
-            margin-left: 20px;
+        .logo {
+            height: 80px;
+            width: auto;
+            margin-right: 15px;
+            max-width: 200px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
 
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 13px;
         }
 
-        .about-text p {
-            margin-bottom: 20px;
-            font-size: 18px;
-            line-height: 1.7;
-            color: var(--text-secondary);
+        /* ===== 탭 스타일 ===== */
+        .tab-container {
+            display: flex;
+            gap: 4px;
+            margin: 15px 0 0 0;
+            border-bottom: 3px solid #667eea;
+            flex-wrap: wrap;
         }
 
-        .about-text strong {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .skill {
-            color: var(--accent);
+        .tab-button {
+            padding: 14px 24px;
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 700;
+            border: 2px solid #ddd;
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            background: #f0f0f0;
+            color: #888;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            position: relative;
+            top: 3px;
+        }
+
+        .tab-button:hover {
+            background: #e8e8e8;
+            color: #555;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            border-color: #667eea;
+            border-bottom: 3px solid white;
+            top: 3px;
+        }
+
+        .tab-button .tab-icon {
+            margin-right: 8px;
+        }
+
+        .tab-content {
+            display: none;
+            padding-top: 15px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== 공통 폼 스타일 ===== */
+        .section {
+            margin: 12px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .skill::before {
-            content: '▹';
-            font-size: 20px;
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
         }
 
-        /* Experience Section */
-        .experience-list {
-            list-style: none;
-        }
-
-        .experience-item {
-            background: linear-gradient(135deg, rgba(100, 255, 218, 0.03) 0%, transparent 100%);
-            border-left: 2px solid var(--accent-teal);
-            padding: 30px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .experience-item:hover {
-            background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, transparent 100%);
-            transform: translateX(10px);
-            border-left-color: var(--accent);
-        }
-
-        .experience-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
+        .form-group {
             margin-bottom: 10px;
         }
 
-        .exp-title {
-            font-size: 18px;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 4px;
+            color: #444;
             font-weight: 600;
-            color: var(--light-text);
+            font-size: 13px;
         }
 
-        .exp-company {
-            color: var(--accent);
-            font-weight: 500;
-            font-size: 16px;
+        label .required {
+            color: #e74c3c;
+            margin-left: 3px;
         }
 
-        .exp-date {
-            color: var(--text-muted);
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+            gap: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"],
+        .checkbox-group input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .employee-list, .owner-info {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        .employee-item {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .employee-item h4 {
+            color: #667eea;
+            margin-bottom: 8px;
             font-size: 14px;
-            white-space: nowrap;
         }
 
-        .exp-description {
-            color: var(--text-secondary);
+        .btn-remove-employee {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .btn-add-employee {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-save {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-pdf {
+            flex: 1;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-reset {
+            flex: 1;
+            background: #f1f3f5;
+            color: #495057;
+        }
+
+        .btn-reset:hover {
+            background: #e9ecef;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #c3e6cb;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .notice-box {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 12px 0;
+            border-left: 4px solid #ffc107;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #856404;
+        }
+
+        .consent-box {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .consent-box h3 {
+            color: #0c5460;
+            margin-bottom: 8px;
             font-size: 16px;
-            line-height: 1.7;
+        }
+
+        .consent-box p {
+            color: #0c5460;
+            line-height: 1.5;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .consent-checkbox {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .consent-checkbox label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .consent-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .contact-info {
+            background: #e7f3ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 12px 0;
+            text-align: center;
+            font-size: 11px;
+            color: #004085;
+        }
+
+        .contact-info strong {
+            color: #667eea;
+        }
+
+        /* ===== 대장 테이블 스타일 (키불출 / 공기구대여) ===== */
+        .ledger-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: #333;
+            margin: 10px 0 5px 0;
+        }
+
+        .ledger-subtitle {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
             margin-bottom: 15px;
         }
 
-        .exp-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .exp-tag {
-            color: var(--accent);
-            font-size: 13px;
-            font-weight: 500;
-            background: rgba(100, 255, 218, 0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(100, 255, 218, 0.3);
-        }
-
-        /* Social Links */
-        .social-links {
-            display: flex;
-            gap: 20px;
-            margin-top: 50px;
-            justify-content: center;
-        }
-
-        .social-link {
-            width: 50px;
-            height: 50px;
-            border: 2px solid var(--accent);
-            border-radius: 50%;
+        .ledger-date-row {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 20px;
-            transition: all 0.3s ease;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: flex-end;
         }
 
-        .social-link:hover {
-            background: rgba(100, 255, 218, 0.1);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2);
+        .ledger-date-row label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 0;
         }
 
-        /* Footer */
-        footer {
+        .ledger-date-row input {
+            width: 180px;
+        }
+
+        .ledger-table-wrapper {
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .ledger-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .ledger-table thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 8px;
             text-align: center;
-            padding: 50px;
-            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 13px;
+            border: 1px solid #5a6fd6;
+            white-space: nowrap;
+        }
+
+        .ledger-table thead th.sub-header {
+            background: linear-gradient(135deg, #7b8ff0 0%, #8e5cb5 100%);
+            font-size: 12px;
+            padding: 8px;
+        }
+
+        .ledger-table tbody td {
+            padding: 4px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .ledger-table tbody td input {
+            border: none;
+            background: transparent;
+            text-align: center;
+            padding: 6px 4px;
+            font-size: 13px;
+            width: 100%;
+            border-radius: 0;
+        }
+
+        .ledger-table tbody td input:focus {
+            background: #f0f3ff;
+            box-shadow: inset 0 0 0 2px #667eea;
+            border-radius: 4px;
+        }
+
+        .ledger-table tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .ledger-table tbody tr:hover {
+            background: #e8ecff;
+        }
+
+        .ledger-table .row-number {
+            font-weight: 700;
+            color: #667eea;
+            width: 40px;
+            background: #f0f3ff;
+        }
+
+        .btn-add-row {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
             font-size: 14px;
-            border-top: 1px solid rgba(100, 255, 218, 0.1);
-            margin-top: 100px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav {
-                padding: 15px 30px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            main {
-                padding: 60px 30px;
-            }
-
-            .hero h1, .hero h2 {
-                font-size: 48px;
-            }
-
-            .hero-subtitle {
-                font-size: 18px;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title::after {
-                display: none;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section {
-                margin: 80px 0;
-            }
-
-            .experience-header {
-                flex-direction: column;
-            }
-
-            .exp-date {
-                white-space: normal;
-                margin-top: 5px;
-            }
-        }
-
-        /* Animations */
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(100, 255, 218, 0); }
-        }
-
-        .pulse {
-            animation: glow 2s infinite;
-        }
-
-        /* Profile Image */
-        .profile-image {
-            width: 300px;
-            height: 300px;
-            border-radius: 10px;
-            object-fit: cover;
-            border: 2px solid var(--accent);
-            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.2);
+            font-weight: 600;
+            margin-top: 10px;
             transition: all 0.3s ease;
         }
 
-        .profile-image:hover {
-            box-shadow: 0 30px 80px rgba(100, 255, 218, 0.3);
-            transform: translateY(-10px);
+        .btn-add-row:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-remove-row {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-remove-row:hover {
+            background: #c82333;
+        }
+
+        .ledger-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== 탭별 색상 ===== */
+        .section.key-section {
+            border-left-color: #e67e22;
+        }
+
+        .section.tool-section {
+            border-left-color: #27ae60;
         }
 
         @media (max-width: 768px) {
-            .profile-image {
-                width: 250px;
-                height: 250px;
+            .tab-button {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+            .ledger-table {
+                font-size: 12px;
             }
         }
-    </style>
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <a href="#" class="nav-logo">KH</a>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a href="#" class="nav-resume">Resume</a>
-    </nav>
+    <div class="container">
+        <h1>
+            <img src="https://i.imgur.com/placeholder.png" alt="카림애비뉴 로고" class="logo" onerror="this.style.display='none'">
+            카림애비뉴 동탄1차
+        </h1>
+        <p class="subtitle">입주자카드 및 관리대장 양식</p>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <p class="hero-greeting">안녕하세요 �</p>
-                <h1>최건혁입니다.</h1>
-                <h2>소프트웨어 개발자</h2>
-                <p class="hero-subtitle">사용자에게 가치 있는 디지털 경험을 만드는 것을 즐기는 개발자입니다. 현재 웹 개발과 사용자 경험 개선에 집중하고 있습니다.</p>
-            </div>
-        </section>
+        <div class="success-message" id="successMessage">
+            ✓ 파일이 성공적으로 저장되었습니다!
+        </div>
 
-        <!-- About Section -->
-        <section id="about">
-            <div class="section-header">
-                <span class="section-number">01</span>
-                <h2 class="section-title">About</h2>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>안녕하세요. 저는 소프트웨어 개발자로서 사용자에게 가치 있는 서비스를 제공하고 싶은 <strong>최건혁</strong>입니다.</p>
-                    <p>대학에서 컴퓨터공학을 전공하며 프로그래밍의 기초를 다졌고, 졸업 후 2년간 <strong>스타트업에서 웹 개발</strong> 업무를 담당했습니다.</p>
-                    <p>빠르게 변화하는 IT 업계에서 새로운 기술을 학습하고 적용하는 것에 큰 흥미를 느끼며, 특히 <strong>사용자 경험을 개선하는 기술적 솔루션</strong>을 찾는 것을 좋아합니다.</p>
-                    <p>협업을 중요시 여기며, 복잡한 문제를 논리적으로 해결하고 그 과정에서 팀과 함께 성장하는 것을 추구합니다.</p>
-                </div>
-                <div>
-                    <img src="profile.png" alt="최건혁 프로필" class="profile-image" />
-                </div>
-            </div>
-            <div style="margin-top: 50px;">
-                <p style="font-weight: 600; font-size: 16px; color: var(--light-text); margin-bottom: 20px;">주요 기술</p>
-                <div class="skills-grid">
-                    <div class="skill">JavaScript</div>
-                    <div class="skill">React</div>
-                    <div class="skill">TypeScript</div>
-                    <div class="skill">Node.js</div>
-                    <div class="skill">HTML & CSS</div>
-                    <div class="skill">Web API</div>
-                    <div class="skill">REST API</div>
-                    <div class="skill">Git</div>
-                </div>
-            </div>
-        </section>
+        <!-- ===== 탭 버튼 ===== -->
+        <div class="tab-container">
+            <button type="button" class="tab-button active" onclick="switchTab('sangga', this)">
+                <span class="tab-icon">🏪</span>상가
+            </button>
+            <button type="button" class="tab-button" onclick="switchTab('officetel', this)">
+                <span class="tab-icon">🏢</span>오피스텔
+            </button>
+            <button type="button" class="tab-button" onclick="switchTab('keylog', this)">
+                <span class="tab-icon">🔑</span>키불출대장
+            </button>
+            <button type="button" class="tab-button" onclick="switchTab('toolrental', this)">
+                <span class="tab-icon">🔧</span>공기구대여
+            </button>
+        </div>
 
-        <!-- Experience Section -->
-        <section id="experience">
-            <div class="section-header">
-                <span class="section-number">02</span>
-                <h2 class="section-title">Experience</h2>
+        <!-- ============================================ -->
+        <!-- ===== 탭 1: 상가 입주자카드 ===== -->
+        <!-- ============================================ -->
+        <div id="tab-sangga" class="tab-content active">
+            <div class="notice-box">
+                📋 본 카드에 작성하신 내용은 우리단지 관리업무에만 사용되며 정보통신망보호법에 의거 외부에 유출되지 않도록 하겠으며 
+                세대가 전출시에는 식별불가능하게 파기를 하오니 아래 정보이용 동의서에 서명을 당부드립니다.
             </div>
-            <ul class="experience-list">
-                <li class="experience-item">
-                    <div class="experience-header">
-                        <div>
-                            <p class="exp-title">웹 개발자</p>
-                            <p class="exp-company">스타트업 회사</p>
+
+            <form id="sanggaForm">
+                <!-- 기본 정보 -->
+                <div class="section">
+                    <div class="section-title">📌 기본 정보</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sg_unitNumber">호수<span class="required">*</span></label>
+                            <input type="text" id="sg_unitNumber" placeholder="예: 101호" required>
                         </div>
-                        <p class="exp-date">2022 — 2024</p>
-                    </div>
-                    <p class="exp-description">빠르게 변화하는 기술 트렌드에 대응하고, 사용자 경험 개선을 위한 기술적 솔루션 구현에 참여했습니다. 풀스택 개발자로서 프론트엔드와 백엔드 구현을 담당했으며, 팀 내 코드 리뷰 및 기술 논의를 활발히 진행했습니다.</p>
-                    <div class="exp-tags">
-                        <span class="exp-tag">React</span>
-                        <span class="exp-tag">Node.js</span>
-                        <span class="exp-tag">JavaScript</span>
-                    </div>
-                </li>
-
-                <li class="experience-item">
-                    <div class="experience-header">
-                        <div>
-                            <p class="exp-title">교내 해커톤 팀장</p>
-                            <p class="exp-company">대학교 3학년</p>
+                        <div class="form-group">
+                            <label for="sg_companyName">업체명<span class="required">*</span></label>
+                            <input type="text" id="sg_companyName" placeholder="업체명을 입력하세요" required>
                         </div>
-                        <p class="exp-date">2020</p>
                     </div>
-                    <p class="exp-description">"지역 상권 활성화 앱"을 개발하여 우수상을 수상했습니다. 5명의 팀원을 이끌며 48시간 동안 React Native로 모바일 앱을 완성했고, 백엔드 API 설계부터 프론트엔드 구현까지 전 과정에 참여하면서 풀스택 개발 경험을 쌓았습니다.</p>
-                    <div class="exp-tags">
-                        <span class="exp-tag">React Native</span>
-                        <span class="exp-tag">API Design</span>
-                        <span class="exp-tag">Leadership</span>
-                    </div>
-                </li>
-
-                <li class="experience-item">
-                    <div class="experience-header">
-                        <div>
-                            <p class="exp-title">컴퓨터공학과 학회 멘토</p>
-                            <p class="exp-company">대학교 학회</p>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>사용구분<span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <label><input type="radio" name="sg_usageType" value="소유" required> 소유</label>
+                                <label><input type="radio" name="sg_usageType" value="임차"> 임차</label>
+                            </div>
                         </div>
-                        <p class="exp-date">2017 — 2021</p>
+                        <div class="form-group">
+                            <label for="sg_employeeCount">직원수</label>
+                            <input type="number" id="sg_employeeCount" placeholder="직원 수">
+                        </div>
                     </div>
-                    <p class="exp-description">4년간 컴퓨터공학과 학회에서 활동하며 후배들에게 프로그래밍을 가르치는 멘토링을 진행했습니다. 복잡한 개념을 쉽게 설명하는 능력을 기르고, 이는 현재 팀 내 코드 리뷰와 기술 공유에 큰 도움이 되고 있습니다.</p>
-                    <div class="exp-tags">
-                        <span class="exp-tag">Mentoring</span>
-                        <span class="exp-tag">Teaching</span>
-                        <span class="exp-tag">Collaboration</span>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sg_moveInDate">입주일<span class="required">*</span></label>
+                            <input type="date" id="sg_moveInDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sg_moveOutDate">전출일</label>
+                            <input type="date" id="sg_moveOutDate">
+                        </div>
                     </div>
-                </li>
-            </ul>
-        </section>
-
-        <!-- Life Philosophy Section -->
-        <section>
-            <div class="section-header">
-                <span class="section-number">03</span>
-                <h2 class="section-title">Philosophy</h2>
-            </div>
-            <div style="background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, transparent 100%); border-left: 3px solid var(--accent); padding: 40px; border-radius: 8px; max-width: 800px;">
-                <p style="font-size: 24px; color: var(--light-text); font-weight: 600; margin-bottom: 20px; line-height: 1.6;">
-                    "기술은 사람을 위해 존재한다"
-                </p>
-                <p style="font-size: 16px; color: var(--text-secondary); line-height: 1.8;">
-                    개발자로서 항상 사용자의 관점에서 생각하려 노력합니다. 아무리 기술적으로 뛰어난 코드라도 실제 사용자에게 도움이 되지 않는다면 의미가 없다고 생각합니다. 사용자가 더 편리하고 효율적으로 업무를 처리할 수 있도록 돕는 것이 개발자의 사명이라고 믿습니다.
-                </p>
-            </div>
-        </section>
-
-        <!-- Character Section -->
-        <section>
-            <div class="section-header">
-                <span class="section-number">04</span>
-                <h2 class="section-title">Character</h2>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
-                <div style="background: linear-gradient(135deg, rgba(100, 255, 218, 0.05) 0%, transparent 100%); border-left: 2px solid var(--accent-teal); padding: 30px; border-radius: 8px;">
-                    <h3 style="color: var(--accent); font-size: 18px; font-weight: 600; margin-bottom: 20px;">주요 장점</h3>
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom: 15px; color: var(--text-secondary); line-height: 1.6;">
-                            <span style="color: var(--accent); font-weight: 600;">꾸준한 학습 의지</span> — 새로운 기술 트렌드에 관심이 많아 개인 시간을 활용해 학습합니다.
-                        </li>
-                        <li style="margin-bottom: 15px; color: var(--text-secondary); line-height: 1.6;">
-                            <span style="color: var(--accent); font-weight: 600;">협업과 소통</span> — 팀과 원활히 소통하며 공동의 목표를 달성합니다.
-                        </li>
-                        <li style="color: var(--text-secondary); line-height: 1.6;">
-                            <span style="color: var(--accent); font-weight: 600;">문제 해결 지향적</span> — 어려운 문제에 직면해도 포기하지 않고 다양한 접근을 시도합니다.
-                        </li>
-                    </ul>
                 </div>
-                <div style="background: linear-gradient(135deg, rgba(100, 255, 218, 0.05) 0%, transparent 100%); border-left: 2px solid var(--accent-teal); padding: 30px; border-radius: 8px;">
-                    <h3 style="color: var(--accent); font-size: 18px; font-weight: 600; margin-bottom: 20px;">개선 중인 부분</h3>
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom: 15px; color: var(--text-secondary); line-height: 1.6;">
-                            <span style="color: var(--accent); font-weight: 600;">완벽주의 성향</span> — 때로는 코드의 완성도에 지나치게 집착할 수 있습니다.
-                        </li>
-                        <li style="margin-bottom: 15px; color: var(--text-secondary); line-height: 1.6;">
-                            <span style="color: var(--accent); font-weight: 600;">개선 방안</span> — 우선순위를 명확히 하고 적정 수준의 완성도를 목표로 하는 연습 중입니다.
-                        </li>
-                        <li style="color: var(--text-secondary); line-height: 1.6;">
-                            <span style="color: var(--accent); font-weight: 600;">목표</span> — 일과 품질의 균형을 맞추기 위해 지속적으로 노력하고 있습니다.
-                        </li>
-                    </ul>
+
+                <!-- 사업자 정보 -->
+                <div class="section">
+                    <div class="section-title">🏪 사업자 정보</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sg_businessNumber">사업자번호<span class="required">*</span></label>
+                            <input type="text" id="sg_businessNumber" placeholder="000-00-00000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sg_businessName">상호<span class="required">*</span></label>
+                            <input type="text" id="sg_businessName" placeholder="상호명" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sg_representative">대표자<span class="required">*</span></label>
+                            <input type="text" id="sg_representative" placeholder="대표자 성명" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sg_businessCategory">업태 / 종목<span class="required">*</span></label>
+                            <input type="text" id="sg_businessCategory" placeholder="예: 도소매업 / 음식점" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sg_businessPhone">전화번호</label>
+                            <input type="tel" id="sg_businessPhone" placeholder="02-0000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="sg_faxNumber">팩스번호</label>
+                            <input type="tel" id="sg_faxNumber" placeholder="02-0000-0000">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sg_businessEmail">이메일</label>
+                            <input type="email" id="sg_businessEmail" placeholder="example@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="sg_manager">담당자</label>
+                            <input type="text" id="sg_manager" placeholder="담당자 이름">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sg_managerPhone">담당자핸드폰</label>
+                            <input type="tel" id="sg_managerPhone" placeholder="010-0000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label>TV보유현황</label>
+                            <div class="checkbox-group">
+                                <label><input type="radio" name="sg_hasTv" value="유"> 유</label>
+                                <label><input type="radio" name="sg_hasTv" value="무"> 무</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>세금계산서</label>
+                            <div class="checkbox-group">
+                                <label><input type="radio" name="sg_taxInvoice" value="유"> 유</label>
+                                <label><input type="radio" name="sg_taxInvoice" value="무"> 무</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 직원 정보 -->
+                <div class="section">
+                    <div class="section-title">👥 직원 정보</div>
+                    <div class="employee-list" id="sg_employeeList">
+                        <div class="employee-item">
+                            <h4>직원 1</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>성명</label>
+                                    <input type="text" name="sg_employeeName[]" placeholder="직원 이름">
+                                </div>
+                                <div class="form-group">
+                                    <label>생년월일</label>
+                                    <input type="date" name="sg_employeeBirth[]">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>핸드폰</label>
+                                    <input type="tel" name="sg_employeePhone[]" placeholder="010-0000-0000">
+                                </div>
+                                <div class="form-group">
+                                    <label>비고</label>
+                                    <input type="text" name="sg_employeeNote[]" placeholder="비고 사항">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-employee" onclick="addSgEmployee()">+ 직원 추가</button>
+                </div>
+
+                <!-- 소유자 정보 -->
+                <div class="section">
+                    <div class="section-title">🏠 소유자 정보</div>
+                    <div class="owner-info">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sg_ownerBusinessName">상호</label>
+                                <input type="text" id="sg_ownerBusinessName" placeholder="소유자 상호">
+                            </div>
+                            <div class="form-group">
+                                <label for="sg_ownerBusinessNumber">사업자번호</label>
+                                <input type="text" id="sg_ownerBusinessNumber" placeholder="000-00-00000">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sg_ownerRepresentative">대표자</label>
+                                <input type="text" id="sg_ownerRepresentative" placeholder="소유자 대표자명">
+                            </div>
+                            <div class="form-group">
+                                <label for="sg_ownerBirthDate">생년월일</label>
+                                <input type="date" id="sg_ownerBirthDate">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sg_ownerBusinessType">업태</label>
+                                <input type="text" id="sg_ownerBusinessType" placeholder="업태">
+                            </div>
+                            <div class="form-group">
+                                <label for="sg_ownerBusinessItem">종목</label>
+                                <input type="text" id="sg_ownerBusinessItem" placeholder="종목">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sg_ownerPhone">전화번호</label>
+                                <input type="tel" id="sg_ownerPhone" placeholder="02-0000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="sg_ownerFax">팩스번호</label>
+                                <input type="tel" id="sg_ownerFax" placeholder="02-0000-0000">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sg_ownerEmail">이메일</label>
+                                <input type="email" id="sg_ownerEmail" placeholder="example@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="sg_ownershipDate">소유일</label>
+                                <input type="date" id="sg_ownershipDate">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sg_ownerAddress">주소</label>
+                            <input type="text" id="sg_ownerAddress" placeholder="소유자 주소">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sg_ownerManager">담당자</label>
+                                <input type="text" id="sg_ownerManager" placeholder="담당자 이름">
+                            </div>
+                            <div class="form-group">
+                                <label for="sg_ownerManagerPhone">담당자핸드폰</label>
+                                <input type="tel" id="sg_ownerManagerPhone" placeholder="010-0000-0000">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 개인정보 동의 -->
+                <div class="consent-box">
+                    <h3>📄 입주자카드 정보이용 동의서</h3>
+                    <p>본인이 직접 입주자카드양식을 작성하며 개인정보보호법에 따라 본인 동의없이 외부유출, 타 용도에 사용하지 않겠다는 조건으로 개인정보취급 및 개인정보의 수집·이용·제공 등의 내용에 대하여 동의합니다.</p>
+                    <div class="consent-checkbox">
+                        <label>
+                            <input type="checkbox" id="sg_consentCheck" required>
+                            <strong>위 내용에 동의합니다 (필수)</strong>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <strong>개인정보관리책임자:</strong> 카림애비뉴 센터장 | 
+                    <strong>관리지원센터:</strong> 031-378-2793 | 
+                    <strong>FAX:</strong> 031-378-2794 | 
+                    <strong>Email:</strong> karim2793@naver.com<br>
+                    <strong>주소:</strong> 경기도 화성시 동탄대로 134 카림애비뉴 관리지원센터 | 
+                    <strong>관리회사:</strong> 한빛종합관리㈜
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-save">💾 Excel 저장</button>
+                    <button type="button" class="btn-pdf" onclick="saveSanggaPDF()">📄 PDF 저장</button>
+                    <button type="reset" class="btn-reset">🔄 초기화</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ===== 탭 2: 오피스텔 입주자카드 ===== -->
+        <!-- ============================================ -->
+        <div id="tab-officetel" class="tab-content">
+            <div class="notice-box">
+                📋 본 카드에 작성하신 내용은 우리단지 관리업무에만 사용되며 정보통신망보호법에 의거 외부에 유출되지 않도록 하겠으며 
+                세대가 전출시에는 식별불가능하게 파기를 하오니 아래 정보이용 동의서에 서명을 당부드립니다.
+            </div>
+
+            <form id="officetelForm">
+                <!-- 기본 정보 -->
+                <div class="section">
+                    <div class="section-title">📌 기본 정보</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ot_unitNumber">호수<span class="required">*</span></label>
+                            <input type="text" id="ot_unitNumber" placeholder="예: 101호" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ot_residentName">성명<span class="required">*</span></label>
+                            <input type="text" id="ot_residentName" placeholder="성명을 입력하세요" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ot_moveInDate">입주일<span class="required">*</span></label>
+                            <input type="date" id="ot_moveInDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ot_moveOutDate">전출일</label>
+                            <input type="date" id="ot_moveOutDate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>입주형태<span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <label><input type="radio" name="ot_moveInType" value="소유" required> 소유</label>
+                            <label><input type="radio" name="ot_moveInType" value="자가"> 자가</label>
+                            <label><input type="radio" name="ot_moveInType" value="전세"> 전세</label>
+                            <label><input type="radio" name="ot_moveInType" value="월세"> 월세</label>
+                            <label><input type="radio" name="ot_moveInType" value="기타"> 기타</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 인적사항 -->
+                <div class="section">
+                    <div class="section-title">👤 인적사항</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ot_birthDate">생년월일</label>
+                            <input type="date" id="ot_birthDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="ot_businessName">상호</label>
+                            <input type="text" id="ot_businessName" placeholder="상호명">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ot_phoneNumber">전화번호</label>
+                            <input type="tel" id="ot_phoneNumber" placeholder="02-0000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="ot_businessNumber">사업자번호</label>
+                            <input type="text" id="ot_businessNumber" placeholder="000-00-00000">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ot_mobilePhone">핸드폰</label>
+                            <input type="tel" id="ot_mobilePhone" placeholder="010-0000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="ot_email">이메일</label>
+                            <input type="email" id="ot_email" placeholder="example@email.com">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>TV보유현황</label>
+                            <div class="checkbox-group">
+                                <label><input type="radio" name="ot_hasTv" value="유"> 유</label>
+                                <label><input type="radio" name="ot_hasTv" value="무"> 무</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>세금계산서</label>
+                            <div class="checkbox-group">
+                                <label><input type="radio" name="ot_taxInvoice" value="유"> 유</label>
+                                <label><input type="radio" name="ot_taxInvoice" value="무"> 무</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 가족/직원 정보 -->
+                <div class="section">
+                    <div class="section-title">👥 가족/직원 정보</div>
+                    <div class="employee-list" id="ot_familyList">
+                        <div class="employee-item">
+                            <h4>가족/직원 1</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>성명</label>
+                                    <input type="text" name="ot_familyName[]" placeholder="이름">
+                                </div>
+                                <div class="form-group">
+                                    <label>생년월일</label>
+                                    <input type="date" name="ot_familyBirth[]">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>핸드폰</label>
+                                    <input type="tel" name="ot_familyPhone[]" placeholder="010-0000-0000">
+                                </div>
+                                <div class="form-group">
+                                    <label>비고</label>
+                                    <input type="text" name="ot_familyNote[]" placeholder="비고 사항">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-employee" onclick="addOtFamily()">+ 가족/직원 추가</button>
+                </div>
+
+                <!-- 소유자 정보 -->
+                <div class="section">
+                    <div class="section-title">🏠 소유자 정보</div>
+                    <div class="owner-info">
+                        <div class="form-row-3">
+                            <div class="form-group">
+                                <label for="ot_ownerBusinessName">상호</label>
+                                <input type="text" id="ot_ownerBusinessName" placeholder="소유자 상호">
+                            </div>
+                            <div class="form-group">
+                                <label for="ot_ownerBusinessNumber">사업자번호</label>
+                                <input type="text" id="ot_ownerBusinessNumber" placeholder="000-00-00000">
+                            </div>
+                            <div class="form-group">
+                                <label for="ot_ownershipDate">소유일</label>
+                                <input type="date" id="ot_ownershipDate">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ot_ownerRepresentative">대표자</label>
+                                <input type="text" id="ot_ownerRepresentative" placeholder="소유자 대표자명">
+                            </div>
+                            <div class="form-group">
+                                <label for="ot_ownerBirthDate">생년월일</label>
+                                <input type="date" id="ot_ownerBirthDate">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ot_ownerBusinessType">업태</label>
+                                <input type="text" id="ot_ownerBusinessType" placeholder="업태">
+                            </div>
+                            <div class="form-group">
+                                <label for="ot_ownerBusinessItem">종목</label>
+                                <input type="text" id="ot_ownerBusinessItem" placeholder="종목">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ot_ownerPhone">전화번호</label>
+                                <input type="tel" id="ot_ownerPhone" placeholder="02-0000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="ot_ownerFax">팩스번호</label>
+                                <input type="tel" id="ot_ownerFax" placeholder="02-0000-0000">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ot_ownerEmail">이메일</label>
+                            <input type="email" id="ot_ownerEmail" placeholder="example@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="ot_ownerAddress">주소</label>
+                            <input type="text" id="ot_ownerAddress" placeholder="소유자 주소">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ot_ownerManager">담당자</label>
+                                <input type="text" id="ot_ownerManager" placeholder="담당자 이름">
+                            </div>
+                            <div class="form-group">
+                                <label for="ot_ownerManagerPhone">담당자핸드폰</label>
+                                <input type="tel" id="ot_ownerManagerPhone" placeholder="010-0000-0000">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 개인정보 동의 -->
+                <div class="consent-box">
+                    <h3>📄 입주자카드 정보이용 동의서</h3>
+                    <p>본인이 직접 입주자카드양식을 작성하며 개인정보보호법에 따라 본인 동의없이 외부유출, 타 용도에 사용하지 않겠다는 조건으로 개인정보취급 및 개인정보의 수집·이용·제공 등의 내용에 대하여 동의합니다.</p>
+                    <div class="consent-checkbox">
+                        <label>
+                            <input type="checkbox" id="ot_consentCheck" required>
+                            <strong>위 내용에 동의합니다 (필수)</strong>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <strong>개인정보관리책임자:</strong> 카림애비뉴 센터장 | 
+                    <strong>관리지원센터:</strong> 031-378-2793 | 
+                    <strong>FAX:</strong> 031-378-2794 | 
+                    <strong>Email:</strong> karim2793@naver.com<br>
+                    <strong>주소:</strong> 경기도 화성시 동탄대로 134 카림애비뉴 관리지원센터 | 
+                    <strong>관리회사:</strong> 한빛종합관리㈜
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-save">💾 Excel 저장</button>
+                    <button type="button" class="btn-pdf" onclick="saveOfficetelPDF()">📄 PDF 저장</button>
+                    <button type="reset" class="btn-reset">🔄 초기화</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ===== 탭 3: 키불출대장 ===== -->
+        <!-- ============================================ -->
+        <div id="tab-keylog" class="tab-content">
+            <div class="ledger-title">🔑 키분출대장</div>
+            <div class="ledger-subtitle">당일불출용</div>
+
+            <div class="notice-box">
+                📋 키 불출 시 아래 양식을 작성하여 주시기 바랍니다. 반납 시 반드시 반납시간을 기재해 주세요.
+            </div>
+
+            <div class="section key-section" style="border-left-color: #e67e22;">
+                <div class="section-title" style="color: #e67e22;">🔑 키 불출 기록</div>
+
+                <div class="ledger-table-wrapper">
+                    <table class="ledger-table" id="keyLogTable">
+                        <thead>
+                            <tr>
+                                <th style="width:40px;">No.</th>
+                                <th style="width:130px;">일자<br><span style="font-size:11px;font-weight:400;">(년/월/일)</span></th>
+                                <th style="width:80px;">시간</th>
+                                <th style="width:100px;">이름</th>
+                                <th style="width:130px;">연락처</th>
+                                <th style="width:80px;">호수</th>
+                                <th>불출 사유<br><span style="font-size:11px;font-weight:400;">(예: 000호 공사)</span></th>
+                                <th style="width:80px;">반납 시간</th>
+                                <th style="width:50px;">삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody id="keyLogBody">
+                            <tr>
+                                <td class="row-number">1</td>
+                                <td><input type="date" name="kl_date[]"></td>
+                                <td><input type="time" name="kl_time[]"></td>
+                                <td><input type="text" name="kl_name[]" placeholder="이름"></td>
+                                <td><input type="tel" name="kl_contact[]" placeholder="010-0000-0000"></td>
+                                <td><input type="text" name="kl_unit[]" placeholder="호수"></td>
+                                <td><input type="text" name="kl_reason[]" placeholder="불출 사유"></td>
+                                <td><input type="time" name="kl_returnTime[]"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="ledger-actions">
+                    <button type="button" class="btn-add-row" onclick="addKeyLogRow()">+ 행 추가</button>
                 </div>
             </div>
-        </section>
 
-        <!-- Contact Section -->
-        <section id="contact" style="text-align: center; margin-top: 150px; margin-bottom: 100px;">
-            <div class="section-header" style="justify-content: center; margin-bottom: 50px;">
-                <h2 class="section-title" style="flex: 1;">연락하기</h2>
+            <div class="contact-info">
+                <strong>카림애비뉴 관리지원센터</strong> | 
+                <strong>TEL:</strong> 031-378-2793 | 
+                <strong>FAX:</strong> 031-378-2794 | 
+                <strong>Email:</strong> karim2793@naver.com
             </div>
-            <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
-                새로운 기회와 협업에 항상 열려있습니다. 편하게 연락주세요!
-            </p>
-            <div class="social-links">
-                <a href="https://github.com" class="social-link" title="GitHub">
-                    <span style="font-size: 24px;">💻</span>
-                </a>
-                <a href="https://linkedin.com" class="social-link" title="LinkedIn">
-                    <span style="font-size: 24px;">💼</span>
-                </a>
-                <a href="mailto:gunhyuck@gmail.com" class="social-link" title="Email">
-                    <span style="font-size: 24px;">✉️</span>
-                </a>
-            </div>
-        </section>
-    </main>
 
-    <!-- Footer -->
-    <footer>
-        <p>Designed & Developed by Choi Geonhyuk | 2026</p>
-    </footer>
+            <div class="button-group">
+                <button type="button" class="btn-save" onclick="saveKeyLogExcel()">💾 Excel 저장</button>
+                <button type="button" class="btn-pdf" onclick="saveKeyLogPDF()">📄 PDF 저장</button>
+                <button type="button" class="btn-reset" onclick="resetKeyLog()">🔄 초기화</button>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ===== 탭 4: 공기구대여 관리대장 ===== -->
+        <!-- ============================================ -->
+        <div id="tab-toolrental" class="tab-content">
+            <div class="ledger-title">🔧 공기구 대여 관리 대장</div>
+            <div class="ledger-subtitle">공기구 대여 및 반납 관리</div>
+
+            <div class="notice-box">
+                📋 공기구 대여 시 아래 양식을 작성하여 주시기 바랍니다. 반납 시 반납시간 기재 및 확인서명을 해주세요.
+            </div>
+
+            <div class="section tool-section" style="border-left-color: #27ae60;">
+                <div class="section-title" style="color: #27ae60;">🔧 공기구 대여 기록</div>
+
+                <div class="ledger-table-wrapper">
+                    <table class="ledger-table" id="toolRentalTable">
+                        <thead>
+                            <tr>
+                                <th style="width:40px;">No.</th>
+                                <th style="width:130px;">일자<br><span style="font-size:11px;font-weight:400;">(년/월/일)</span></th>
+                                <th style="width:100px;">호실 / 상호</th>
+                                <th style="width:100px;">이름</th>
+                                <th style="width:130px;">연락처</th>
+                                <th>대여 공구 명</th>
+                                <th style="width:80px;">반납시간</th>
+                                <th style="width:100px;">확인서명</th>
+                                <th style="width:50px;">삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody id="toolRentalBody">
+                            <tr>
+                                <td class="row-number">1</td>
+                                <td><input type="date" name="tr_date[]"></td>
+                                <td><input type="text" name="tr_unit[]" placeholder="호실/상호"></td>
+                                <td><input type="text" name="tr_name[]" placeholder="이름"></td>
+                                <td><input type="tel" name="tr_contact[]" placeholder="010-0000-0000"></td>
+                                <td><input type="text" name="tr_tool[]" placeholder="대여 공구 명"></td>
+                                <td><input type="time" name="tr_returnTime[]"></td>
+                                <td><input type="text" name="tr_signature[]" placeholder="서명"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="ledger-actions">
+                    <button type="button" class="btn-add-row" onclick="addToolRentalRow()">+ 행 추가</button>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <strong>카림애비뉴 관리지원센터</strong> | 
+                <strong>TEL:</strong> 031-378-2793 | 
+                <strong>FAX:</strong> 031-378-2794 | 
+                <strong>Email:</strong> karim2793@naver.com
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn-save" onclick="saveToolRentalExcel()">💾 Excel 저장</button>
+                <button type="button" class="btn-pdf" onclick="saveToolRentalPDF()">📄 PDF 저장</button>
+                <button type="button" class="btn-reset" onclick="resetToolRental()">🔄 초기화</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Intersection Observer for scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
+        // ===== 탭 전환 =====
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            btn.classList.add('active');
+        }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                }
-            });
-        }, observerOptions);
+        // ===== 공통 PDF 생성 함수 =====
+        function generatePDF(containerSelector, fileName, consentId) {
+            if (consentId && !document.getElementById(consentId).checked) {
+                alert('개인정보 이용 동의가 필요합니다.');
+                return;
+            }
 
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
+            const activeTab = document.querySelector('.tab-content.active');
+            const buttons = activeTab.querySelector('.button-group');
+            const successMessage = document.getElementById('successMessage');
+            const tabContainer = document.querySelector('.tab-container');
+            const inactiveTabs = document.querySelectorAll('.tab-content:not(.active)');
+            
+            const origBtnDisplay = buttons.style.display;
+            const origMsgDisplay = successMessage.style.display;
+            const origTabDisplay = tabContainer.style.display;
+            
+            buttons.style.display = 'none';
+            successMessage.style.display = 'none';
+            tabContainer.style.display = 'none';
+            inactiveTabs.forEach(t => t.style.display = 'none');
+
+            // 삭제 버튼 숨기기
+            const deleteButtons = activeTab.querySelectorAll('.btn-remove-row');
+            deleteButtons.forEach(b => b.style.display = 'none');
+            const addButtons = activeTab.querySelectorAll('.btn-add-row');
+            addButtons.forEach(b => b.style.display = 'none');
+            // 삭제 열 숨기기
+            const deleteThs = activeTab.querySelectorAll('th:last-child');
+            const deleteTds = activeTab.querySelectorAll('tbody td:last-child');
+
+            setTimeout(() => {
+                const container = document.querySelector('.container');
+                
+                html2canvas(container, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: false,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    onclone: function(clonedDoc) {
+                        const clonedButtons = clonedDoc.querySelector('.tab-content.active .button-group');
+                        const clonedMessage = clonedDoc.querySelector('#successMessage');
+                        const clonedTabs = clonedDoc.querySelector('.tab-container');
+                        const clonedInactive = clonedDoc.querySelectorAll('.tab-content:not(.active)');
+                        if (clonedButtons) clonedButtons.style.display = 'none';
+                        if (clonedMessage) clonedMessage.style.display = 'none';
+                        if (clonedTabs) clonedTabs.style.display = 'none';
+                        clonedInactive.forEach(t => t.style.display = 'none');
+                        // 삭제 버튼/행추가 숨김
+                        clonedDoc.querySelectorAll('.btn-remove-row, .btn-add-row, .ledger-actions').forEach(el => el.style.display = 'none');
+                    }
+                }).then(canvas => {
+                    buttons.style.display = origBtnDisplay;
+                    successMessage.style.display = origMsgDisplay;
+                    tabContainer.style.display = '';
+                    inactiveTabs.forEach(t => t.style.display = '');
+                    deleteButtons.forEach(b => b.style.display = '');
+                    addButtons.forEach(b => b.style.display = '');
+
+                    try {
+                        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                        const imgWidth = 210;
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        const imgData = canvas.toDataURL('image/png', 1.0);
+
+                        let heightLeft = imgHeight;
+                        let position = 0;
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= 297;
+
+                        while (heightLeft > 0) {
+                            position = heightLeft - imgHeight;
+                            pdf.addPage();
+                            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                            heightLeft -= 297;
+                        }
+
+                        pdf.save(fileName);
+                        showSuccess('✓ PDF 파일이 성공적으로 저장되었습니다!');
+                    } catch (error) {
+                        console.error('PDF 생성 오류:', error);
+                        alert('PDF 생성 중 오류가 발생했습니다: ' + error.message);
+                        showError('❌ PDF 생성 중 오류가 발생했습니다.');
+                    }
+                }).catch(error => {
+                    buttons.style.display = origBtnDisplay;
+                    successMessage.style.display = origMsgDisplay;
+                    tabContainer.style.display = '';
+                    inactiveTabs.forEach(t => t.style.display = '');
+                    deleteButtons.forEach(b => b.style.display = '');
+                    addButtons.forEach(b => b.style.display = '');
+                    console.error('캡처 오류:', error);
+                    alert('화면 캡처 중 오류가 발생했습니다: ' + error.message);
+                    showError('❌ 화면 캡처 중 오류가 발생했습니다.');
+                });
+            }, 300);
+        }
+
+        function showSuccess(msg) {
+            const el = document.getElementById('successMessage');
+            el.textContent = msg;
+            el.style.background = '#d4edda'; el.style.color = '#155724'; el.style.borderColor = '#c3e6cb';
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 3000);
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('successMessage');
+            el.textContent = msg;
+            el.style.background = '#f8d7da'; el.style.color = '#721c24'; el.style.borderColor = '#f5c6cb';
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 3000);
+        }
+
+        // ===== 상가 PDF 저장 =====
+        function saveSanggaPDF() {
+            const unit = document.getElementById('sg_unitNumber').value;
+            const biz = document.getElementById('sg_businessName').value;
+            if (!unit || !biz) { alert('호수와 상호명은 필수 입력 항목입니다.'); return; }
+            generatePDF('.container', `${unit}_${biz}_상가_입주자카드.pdf`, 'sg_consentCheck');
+        }
+
+        // ===== 오피스텔 PDF 저장 =====
+        function saveOfficetelPDF() {
+            const unit = document.getElementById('ot_unitNumber').value;
+            const name = document.getElementById('ot_residentName').value;
+            if (!unit || !name) { alert('호수와 성명은 필수 입력 항목입니다.'); return; }
+            generatePDF('.container', `${unit}_${name}_오피스텔_입주자카드.pdf`, 'ot_consentCheck');
+        }
+
+        // ===== 상가 직원 추가/삭제 =====
+        let sgEmployeeCount = 1;
+        function addSgEmployee() {
+            sgEmployeeCount++;
+            const list = document.getElementById('sg_employeeList');
+            const item = document.createElement('div');
+            item.className = 'employee-item';
+            item.innerHTML = `
+                <h4>직원 ${sgEmployeeCount}</h4>
+                <button type="button" class="btn-remove-employee" onclick="this.parentElement.remove()">삭제</button>
+                <div class="form-row">
+                    <div class="form-group"><label>성명</label><input type="text" name="sg_employeeName[]" placeholder="직원 이름"></div>
+                    <div class="form-group"><label>생년월일</label><input type="date" name="sg_employeeBirth[]"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>핸드폰</label><input type="tel" name="sg_employeePhone[]" placeholder="010-0000-0000"></div>
+                    <div class="form-group"><label>비고</label><input type="text" name="sg_employeeNote[]" placeholder="비고 사항"></div>
+                </div>`;
+            list.appendChild(item);
+            item.querySelectorAll('input[type="tel"]').forEach(i => i.addEventListener('input', function() { formatPhoneNumber(this); }));
+        }
+
+        // ===== 오피스텔 가족/직원 추가/삭제 =====
+        let otFamilyCount = 1;
+        function addOtFamily() {
+            otFamilyCount++;
+            const list = document.getElementById('ot_familyList');
+            const item = document.createElement('div');
+            item.className = 'employee-item';
+            item.innerHTML = `
+                <h4>가족/직원 ${otFamilyCount}</h4>
+                <button type="button" class="btn-remove-employee" onclick="this.parentElement.remove()">삭제</button>
+                <div class="form-row">
+                    <div class="form-group"><label>성명</label><input type="text" name="ot_familyName[]" placeholder="이름"></div>
+                    <div class="form-group"><label>생년월일</label><input type="date" name="ot_familyBirth[]"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>핸드폰</label><input type="tel" name="ot_familyPhone[]" placeholder="010-0000-0000"></div>
+                    <div class="form-group"><label>비고</label><input type="text" name="ot_familyNote[]" placeholder="비고 사항"></div>
+                </div>`;
+            list.appendChild(item);
+            item.querySelectorAll('input[type="tel"]').forEach(i => i.addEventListener('input', function() { formatPhoneNumber(this); }));
+        }
+
+        // ===== 상가 폼 제출 =====
+        document.getElementById('sanggaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!document.getElementById('sg_consentCheck').checked) { alert('개인정보 이용 동의가 필요합니다.'); return; }
+            createSanggaExcel();
         });
 
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+        function createSanggaExcel() {
+            const d = {
+                unitNumber: document.getElementById('sg_unitNumber').value,
+                companyName: document.getElementById('sg_companyName').value,
+                usageType: document.querySelector('input[name="sg_usageType"]:checked')?.value || '',
+                employeeCount: document.getElementById('sg_employeeCount').value,
+                moveInDate: document.getElementById('sg_moveInDate').value,
+                moveOutDate: document.getElementById('sg_moveOutDate').value,
+                businessNumber: document.getElementById('sg_businessNumber').value,
+                businessName: document.getElementById('sg_businessName').value,
+                representative: document.getElementById('sg_representative').value,
+                businessCategory: document.getElementById('sg_businessCategory').value,
+                businessPhone: document.getElementById('sg_businessPhone').value,
+                faxNumber: document.getElementById('sg_faxNumber').value,
+                businessEmail: document.getElementById('sg_businessEmail').value,
+                manager: document.getElementById('sg_manager').value,
+                managerPhone: document.getElementById('sg_managerPhone').value,
+                hasTv: document.querySelector('input[name="sg_hasTv"]:checked')?.value || '',
+                taxInvoice: document.querySelector('input[name="sg_taxInvoice"]:checked')?.value || '',
+                empNames: Array.from(document.querySelectorAll('input[name="sg_employeeName[]"]')).map(el => el.value),
+                empBirths: Array.from(document.querySelectorAll('input[name="sg_employeeBirth[]"]')).map(el => el.value),
+                empPhones: Array.from(document.querySelectorAll('input[name="sg_employeePhone[]"]')).map(el => el.value),
+                empNotes: Array.from(document.querySelectorAll('input[name="sg_employeeNote[]"]')).map(el => el.value),
+                ownerBizName: document.getElementById('sg_ownerBusinessName').value,
+                ownerBizNum: document.getElementById('sg_ownerBusinessNumber').value,
+                ownerRep: document.getElementById('sg_ownerRepresentative').value,
+                ownerBirth: document.getElementById('sg_ownerBirthDate').value,
+                ownerBizType: document.getElementById('sg_ownerBusinessType').value,
+                ownerBizItem: document.getElementById('sg_ownerBusinessItem').value,
+                ownerPhone: document.getElementById('sg_ownerPhone').value,
+                ownerFax: document.getElementById('sg_ownerFax').value,
+                ownerEmail: document.getElementById('sg_ownerEmail').value,
+                ownershipDate: document.getElementById('sg_ownershipDate').value,
+                ownerAddress: document.getElementById('sg_ownerAddress').value,
+                ownerManager: document.getElementById('sg_ownerManager').value,
+                ownerManagerPhone: document.getElementById('sg_ownerManagerPhone').value
+            };
+
+            const wb = XLSX.utils.book_new();
+            const ws = [];
+            for (let i = 0; i < 35; i++) ws.push(new Array(25).fill(null));
+
+            ws[0][0] = '    상가 입주자카드';
+            ws[2][0] = '호수'; ws[2][4] = d.unitNumber; ws[2][11] = '입주일'; ws[2][14] = d.moveInDate;
+            ws[3][0] = '업체명'; ws[3][4] = d.companyName; ws[3][11] = '전출일'; ws[3][14] = d.moveOutDate;
+            ws[4][0] = '사용구분'; ws[4][4] = `      ${d.usageType==='소유'?'☑':'□'} 소유           ${d.usageType==='임차'?'☑':'□'} 임차`; ws[4][11] = '직원수'; ws[4][14] = d.employeeCount;
+            ws[6][0] = '사 업 자'; ws[6][1] = '사업자번호'; ws[6][4] = d.businessNumber; ws[6][11] = '상호'; ws[6][14] = d.businessName;
+            ws[7][1] = '대표자'; ws[7][4] = d.representative; ws[7][11] = '업태 / 종목'; ws[7][14] = d.businessCategory;
+            ws[8][1] = '이메일'; ws[8][4] = d.businessEmail;
+            ws[9][1] = '전화번호'; ws[9][4] = d.businessPhone; ws[9][11] = '팩스번호'; ws[9][14] = d.faxNumber;
+            ws[10][1] = '담당자'; ws[10][4] = d.manager; ws[10][11] = '담당자핸드폰'; ws[10][14] = d.managerPhone;
+            ws[11][1] = 'TV보유현황'; ws[11][4] = `${d.hasTv==='유'?'☑':'□'} 유   ${d.hasTv==='무'?'☑':'□'} 무`; ws[11][11] = '세금계산서'; ws[11][14] = `${d.taxInvoice==='유'?'☑':'□'} 유   ${d.taxInvoice==='무'?'☑':'□'} 무`;
+            ws[13][0] = '직  원'; ws[13][1] = '성명'; ws[13][4] = '생 년 월 일'; ws[13][9] = '핸 드 폰'; ws[13][14] = '비          고';
+            let er = 14;
+            for (let i = 0; i < Math.min(d.empNames.length, 6); i++) {
+                if (d.empNames[i]||d.empBirths[i]||d.empPhones[i]||d.empNotes[i]) {
+                    ws[er][1]=d.empNames[i]||''; ws[er][4]=d.empBirths[i]||''; ws[er][9]=d.empPhones[i]||''; ws[er][14]=d.empNotes[i]||''; er++;
+                }
+            }
+            ws[19][0]='소 유 자'; ws[19][1]='상호'; ws[19][4]=d.ownerBizName; ws[19][8]='사업자번호'; ws[19][11]=d.ownerBizNum; ws[19][15]='소유일'; ws[19][18]=d.ownershipDate;
+            ws[20][1]='대표자'; ws[20][4]=d.ownerRep; ws[20][11]='생년월일'; ws[20][14]=d.ownerBirth;
+            ws[21][1]='업태'; ws[21][4]=d.ownerBizType; ws[21][11]='종목'; ws[21][14]=d.ownerBizItem;
+            ws[22][1]='전화번호'; ws[22][4]=d.ownerPhone; ws[22][11]='팩스번호'; ws[22][14]=d.ownerFax;
+            ws[23][1]='이메일'; ws[23][4]=d.ownerEmail;
+            ws[24][1]='주소'; ws[24][4]=d.ownerAddress;
+            ws[25][1]='담당자'; ws[25][4]=d.ownerManager; ws[25][11]='담당자핸드폰'; ws[25][14]=d.ownerManagerPhone;
+            ws[27][0]='※ 본 카드에 작성하신 내용은 우리단지 관리업무에만 사용되며 정보통신망보호법에 의거 외부에 유출되지 않도록 하겠으며 세대가 전출시에는 식별불가능하게 파기를 하오니 아래 정보이용 동의서에 서명을 당부드립니다.';
+            ws[28][0]='개인정보관리책임자'; ws[28][4]='개인정보 보호업무 및 관련\n고층 사항을 처리하는 부서'; ws[28][9]='관리지원센터 전화번호'; ws[28][13]='관리지원센터 주소'; ws[28][18]='관리회사명';
+            ws[29][0]='카림애비뉴 센터장'; ws[29][4]='카림애비뉴 관리지원센터'; ws[29][9]='031-378-2793'; ws[29][13]='경기도 화성시 동탄대로 134\n카림애비뉴 관리지원센터'; ws[29][18]='한빛종합관리㈜';
+            ws[30][0]='입주자카드 정보이용 동의서';
+            ws[31][0]='    본인 자필로 입주자카드양식을 작성하며 개인정보보호법에 따라 본인 동의없이 외부유출, 타 용도에 사용하지 않겠다는 조건으로 개인정보취급 및 개인정보의 수집.이용.제공 등의 내용에 대하여 동의합니다.';
+            const now = new Date();
+            ws[32][0]=`20${now.getFullYear().toString().slice(-2)}     년      ${now.getMonth()+1}       월       ${now.getDate()}일`;
+            ws[32][13]='성    명 : '; ws[32][16]=d.representative; ws[32][19]='(인)';
+            ws[33][0]='※ 카림애비뉴 관리지원센터   TEL : 031-378-2793   FAX : 031-378-2794  E-mail : karim2793@naver.com ※';
+
+            const sheet = XLSX.utils.aoa_to_sheet(ws);
+            sheet['!merges'] = [
+                {s:{r:0,c:0},e:{r:0,c:24}},{s:{r:2,c:0},e:{r:2,c:3}},{s:{r:2,c:4},e:{r:2,c:10}},{s:{r:2,c:14},e:{r:2,c:20}},
+                {s:{r:3,c:0},e:{r:3,c:3}},{s:{r:3,c:4},e:{r:3,c:10}},{s:{r:3,c:14},e:{r:3,c:20}},
+                {s:{r:4,c:0},e:{r:4,c:3}},{s:{r:4,c:4},e:{r:4,c:10}},
+                {s:{r:6,c:0},e:{r:12,c:0}},{s:{r:6,c:1},e:{r:6,c:3}},{s:{r:6,c:4},e:{r:6,c:10}},{s:{r:6,c:14},e:{r:6,c:20}},
+                {s:{r:7,c:1},e:{r:7,c:3}},{s:{r:7,c:4},e:{r:7,c:10}},{s:{r:7,c:14},e:{r:7,c:20}},
+                {s:{r:8,c:1},e:{r:8,c:3}},{s:{r:8,c:4},e:{r:8,c:20}},
+                {s:{r:9,c:1},e:{r:9,c:3}},{s:{r:9,c:4},e:{r:9,c:10}},{s:{r:9,c:14},e:{r:9,c:20}},
+                {s:{r:10,c:1},e:{r:10,c:3}},{s:{r:10,c:4},e:{r:10,c:10}},{s:{r:10,c:14},e:{r:10,c:20}},
+                {s:{r:11,c:1},e:{r:11,c:3}},{s:{r:11,c:4},e:{r:11,c:10}},{s:{r:11,c:14},e:{r:11,c:20}},
+                {s:{r:13,c:0},e:{r:18,c:0}},{s:{r:13,c:1},e:{r:13,c:3}},{s:{r:13,c:4},e:{r:13,c:8}},{s:{r:13,c:9},e:{r:13,c:13}},{s:{r:13,c:14},e:{r:13,c:20}},
+                {s:{r:19,c:0},e:{r:25,c:0}},{s:{r:19,c:1},e:{r:19,c:3}},{s:{r:19,c:4},e:{r:19,c:7}},{s:{r:19,c:11},e:{r:19,c:14}},
+                {s:{r:27,c:0},e:{r:27,c:24}},
+                {s:{r:28,c:0},e:{r:28,c:3}},{s:{r:28,c:4},e:{r:28,c:8}},{s:{r:28,c:9},e:{r:28,c:12}},{s:{r:28,c:13},e:{r:28,c:17}},{s:{r:28,c:18},e:{r:28,c:24}},
+                {s:{r:30,c:0},e:{r:30,c:24}},{s:{r:31,c:0},e:{r:31,c:24}},{s:{r:33,c:0},e:{r:33,c:24}}
+            ];
+            sheet['!cols'] = Array.from({length:25}, (_,i) => ({wch: i===0?10:8}));
+            sheet['!rows'] = Array.from({length:35}, () => ({hpt:20}));
+            XLSX.utils.book_append_sheet(wb, sheet, '상가');
+            XLSX.writeFile(wb, `${d.unitNumber}_${d.businessName}_상가.xlsx`);
+            showSuccess('✓ Excel 파일이 성공적으로 저장되었습니다!');
+        }
+
+        // ===== 오피스텔 폼 제출 =====
+        document.getElementById('officetelForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!document.getElementById('ot_consentCheck').checked) { alert('개인정보 이용 동의가 필요합니다.'); return; }
+            createOfficetelExcel();
+        });
+
+        function createOfficetelExcel() {
+            const d = {
+                unitNumber: document.getElementById('ot_unitNumber').value,
+                residentName: document.getElementById('ot_residentName').value,
+                moveInDate: document.getElementById('ot_moveInDate').value,
+                moveOutDate: document.getElementById('ot_moveOutDate').value,
+                moveInType: document.querySelector('input[name="ot_moveInType"]:checked')?.value || '',
+                birthDate: document.getElementById('ot_birthDate').value,
+                businessName: document.getElementById('ot_businessName').value,
+                phoneNumber: document.getElementById('ot_phoneNumber').value,
+                businessNumber: document.getElementById('ot_businessNumber').value,
+                mobilePhone: document.getElementById('ot_mobilePhone').value,
+                email: document.getElementById('ot_email').value,
+                hasTv: document.querySelector('input[name="ot_hasTv"]:checked')?.value || '',
+                taxInvoice: document.querySelector('input[name="ot_taxInvoice"]:checked')?.value || '',
+                famNames: Array.from(document.querySelectorAll('input[name="ot_familyName[]"]')).map(el => el.value),
+                famBirths: Array.from(document.querySelectorAll('input[name="ot_familyBirth[]"]')).map(el => el.value),
+                famPhones: Array.from(document.querySelectorAll('input[name="ot_familyPhone[]"]')).map(el => el.value),
+                famNotes: Array.from(document.querySelectorAll('input[name="ot_familyNote[]"]')).map(el => el.value),
+                ownerBizName: document.getElementById('ot_ownerBusinessName').value,
+                ownerBizNum: document.getElementById('ot_ownerBusinessNumber').value,
+                ownershipDate: document.getElementById('ot_ownershipDate').value,
+                ownerRep: document.getElementById('ot_ownerRepresentative').value,
+                ownerBirth: document.getElementById('ot_ownerBirthDate').value,
+                ownerBizType: document.getElementById('ot_ownerBusinessType').value,
+                ownerBizItem: document.getElementById('ot_ownerBusinessItem').value,
+                ownerPhone: document.getElementById('ot_ownerPhone').value,
+                ownerFax: document.getElementById('ot_ownerFax').value,
+                ownerEmail: document.getElementById('ot_ownerEmail').value,
+                ownerAddress: document.getElementById('ot_ownerAddress').value,
+                ownerManager: document.getElementById('ot_ownerManager').value,
+                ownerManagerPhone: document.getElementById('ot_ownerManagerPhone').value
+            };
+
+            const wb = XLSX.utils.book_new();
+            const ws = [];
+            for (let i = 0; i < 35; i++) ws.push(new Array(21).fill(null));
+
+            ws[0][0] = '    오피스텔 입주자카드';
+            ws[2][0]='호수'; ws[2][4]=d.unitNumber; ws[2][11]='입주일'; ws[2][14]=d.moveInDate;
+            ws[3][0]='성명'; ws[3][4]=d.residentName; ws[3][11]='전출일'; ws[3][14]=d.moveOutDate;
+            const mt = d.moveInType;
+            ws[4][0]='입주형태'; ws[4][4]=`      ${mt==='소유'?'☑':'□'} 소유    /     ${mt==='자가'?'☑':'□'} 자가    ${mt==='전세'?'☑':'□'} 전세    ${mt==='월세'?'☑':'□'} 월세    ${mt==='기타'?'☑':'□'} 기타`;
+            ws[6][0]='인적사항'; ws[6][1]='생년월일'; ws[6][4]=d.birthDate; ws[6][11]='상호'; ws[6][14]=d.businessName;
+            ws[7][1]='전화번호'; ws[7][4]=d.phoneNumber; ws[7][11]='사업자번호'; ws[7][14]=d.businessNumber;
+            ws[8][1]='핸드폰'; ws[8][4]=d.mobilePhone; ws[8][11]='이메일'; ws[8][14]=d.email;
+            ws[9][1]='TV보유현황'; ws[9][4]=`${d.hasTv==='유'?'☑':'□'} 유   ${d.hasTv==='무'?'☑':'□'} 무`; ws[9][11]='세금계산서'; ws[9][14]=`${d.taxInvoice==='유'?'☑':'□'} 유   ${d.taxInvoice==='무'?'☑':'□'} 무`;
+            ws[11][0]='가족/직원'; ws[11][1]='성명'; ws[11][4]='생 년 월 일'; ws[11][9]='핸 드 폰'; ws[11][14]='비          고';
+            let fr = 12;
+            for (let i = 0; i < Math.min(d.famNames.length, 5); i++) {
+                if (d.famNames[i]||d.famBirths[i]||d.famPhones[i]||d.famNotes[i]) {
+                    ws[fr][1]=d.famNames[i]||''; ws[fr][4]=d.famBirths[i]||''; ws[fr][9]=d.famPhones[i]||''; ws[fr][14]=d.famNotes[i]||''; fr++;
+                }
+            }
+            ws[17][0]='소 유 자'; ws[17][1]='상호'; ws[17][4]=d.ownerBizName; ws[17][8]='사업자번호'; ws[17][11]=d.ownerBizNum; ws[17][15]='소유일'; ws[17][18]=d.ownershipDate;
+            ws[18][1]='대표자'; ws[18][4]=d.ownerRep; ws[18][11]='생년월일'; ws[18][14]=d.ownerBirth;
+            ws[19][1]='업태'; ws[19][4]=d.ownerBizType; ws[19][11]='종목'; ws[19][14]=d.ownerBizItem;
+            ws[20][1]='전화번호'; ws[20][4]=d.ownerPhone; ws[20][11]='팩스번호'; ws[20][14]=d.ownerFax;
+            ws[21][1]='이메일'; ws[21][4]=d.ownerEmail;
+            ws[22][1]='주소'; ws[22][4]=d.ownerAddress;
+            ws[23][1]='담당자'; ws[23][4]=d.ownerManager; ws[23][11]='담당자핸드폰'; ws[23][14]=d.ownerManagerPhone;
+            ws[25][0]='※ 본 카드에 작성하신 내용은 우리단지 관리업무에만 사용되며 정보통신망보호법에 의거 외부에 유출되지 않도록 하겠으며 세대가 전출시에는 식별불가능하게 파기를 하오니 아래 정보이용 동의서에 서명을 당부드립니다.';
+            ws[26][0]='개인정보관리책임자'; ws[26][4]='개인정보 보호업무 및 관련\n고층 사항을 처리하는 부서'; ws[26][9]='관리지원센터 전화번호'; ws[26][13]='관리지원센터 주소'; ws[26][18]='관리회사명';
+            ws[27][0]='카림애비뉴 센터장'; ws[27][4]='카림애비뉴 관리지원센터'; ws[27][9]='031-378-2793'; ws[27][13]='경기도 화성시 동탄대로 134\n카림애비뉴 관리지원센터'; ws[27][18]='한빛종합관리㈜';
+            ws[28][0]='입주자카드 정보이용 동의서';
+            ws[29][0]='    본인 자필로 입주자카드양식을 작성하며 개인정보보호법에 따라 본인 동의없이 외부유출, 타 용도에 사용하지';
+            ws[30][0]='    않겠다는 조건으로 개인정보취급 및 개인정보의 수집.이용.제공 등의 내용에 대하여 동의합니다.';
+            const now = new Date();
+            ws[31][0]=`20${now.getFullYear().toString().slice(-2)}     년      ${now.getMonth()+1}       월       ${now.getDate()}일`;
+            ws[31][13]='성    명 : '; ws[31][16]=d.residentName; ws[31][19]='(인)';
+            ws[32][0]='※ 카림애비뉴 관리지원센터   TEL : 031-378-2793   FAX : 031-378-2794  E-mail : karim2793@naver.com ※';
+
+            const sheet = XLSX.utils.aoa_to_sheet(ws);
+            sheet['!merges'] = [
+                {s:{r:0,c:0},e:{r:1,c:20}},{s:{r:2,c:0},e:{r:2,c:3}},{s:{r:2,c:4},e:{r:2,c:10}},{s:{r:2,c:14},e:{r:2,c:20}},
+                {s:{r:3,c:0},e:{r:3,c:3}},{s:{r:3,c:4},e:{r:3,c:10}},{s:{r:3,c:14},e:{r:3,c:20}},
+                {s:{r:4,c:0},e:{r:4,c:3}},{s:{r:4,c:4},e:{r:4,c:20}},
+                {s:{r:5,c:0},e:{r:5,c:20}},
+                {s:{r:6,c:0},e:{r:9,c:0}},{s:{r:6,c:1},e:{r:6,c:3}},{s:{r:6,c:4},e:{r:6,c:10}},{s:{r:6,c:14},e:{r:6,c:20}},
+                {s:{r:7,c:1},e:{r:7,c:3}},{s:{r:7,c:4},e:{r:7,c:10}},{s:{r:7,c:14},e:{r:7,c:20}},
+                {s:{r:8,c:1},e:{r:8,c:3}},{s:{r:8,c:4},e:{r:8,c:10}},{s:{r:8,c:14},e:{r:8,c:20}},
+                {s:{r:9,c:1},e:{r:9,c:3}},{s:{r:9,c:4},e:{r:9,c:10}},{s:{r:9,c:14},e:{r:9,c:20}},
+                {s:{r:10,c:0},e:{r:10,c:20}},
+                {s:{r:11,c:0},e:{r:16,c:0}},{s:{r:11,c:1},e:{r:11,c:3}},{s:{r:11,c:4},e:{r:11,c:8}},{s:{r:11,c:9},e:{r:11,c:13}},{s:{r:11,c:14},e:{r:11,c:20}},
+                {s:{r:16,c:0},e:{r:16,c:20}},
+                {s:{r:17,c:0},e:{r:23,c:0}},{s:{r:17,c:1},e:{r:17,c:3}},{s:{r:17,c:4},e:{r:17,c:7}},{s:{r:17,c:8},e:{r:17,c:10}},{s:{r:17,c:11},e:{r:17,c:14}},{s:{r:17,c:15},e:{r:17,c:17}},{s:{r:17,c:18},e:{r:17,c:20}},
+                {s:{r:18,c:1},e:{r:18,c:3}},{s:{r:18,c:4},e:{r:18,c:10}},{s:{r:18,c:14},e:{r:18,c:20}},
+                {s:{r:19,c:1},e:{r:19,c:3}},{s:{r:19,c:4},e:{r:19,c:10}},{s:{r:19,c:14},e:{r:19,c:20}},
+                {s:{r:20,c:1},e:{r:20,c:3}},{s:{r:20,c:4},e:{r:20,c:10}},{s:{r:20,c:14},e:{r:20,c:20}},
+                {s:{r:21,c:1},e:{r:21,c:3}},{s:{r:21,c:4},e:{r:21,c:20}},
+                {s:{r:22,c:1},e:{r:22,c:3}},{s:{r:22,c:4},e:{r:22,c:20}},
+                {s:{r:23,c:1},e:{r:23,c:3}},{s:{r:23,c:4},e:{r:23,c:10}},{s:{r:23,c:14},e:{r:23,c:20}},
+                {s:{r:25,c:0},e:{r:25,c:20}},
+                {s:{r:26,c:0},e:{r:26,c:3}},{s:{r:26,c:4},e:{r:26,c:8}},{s:{r:26,c:9},e:{r:26,c:12}},{s:{r:26,c:13},e:{r:26,c:17}},{s:{r:26,c:18},e:{r:26,c:20}},
+                {s:{r:27,c:0},e:{r:27,c:3}},{s:{r:27,c:4},e:{r:27,c:8}},{s:{r:27,c:9},e:{r:27,c:12}},{s:{r:27,c:13},e:{r:27,c:17}},{s:{r:27,c:18},e:{r:27,c:20}},
+                {s:{r:28,c:0},e:{r:28,c:20}},{s:{r:29,c:0},e:{r:29,c:20}},{s:{r:30,c:0},e:{r:30,c:20}},
+                {s:{r:31,c:0},e:{r:31,c:11}},{s:{r:32,c:0},e:{r:32,c:20}}
+            ];
+            sheet['!cols'] = Array.from({length:21}, (_,i) => ({wch: i===0?10:8}));
+            sheet['!rows'] = Array.from({length:35}, () => ({hpt:20}));
+            XLSX.utils.book_append_sheet(wb, sheet, '오피스텔');
+            XLSX.writeFile(wb, `${d.unitNumber}_${d.residentName}_오피스텔.xlsx`);
+            showSuccess('✓ Excel 파일이 성공적으로 저장되었습니다!');
+        }
+
+        // ============================================
+        // ===== 키불출대장 기능 =====
+        // ============================================
+        let keyLogRowCount = 1;
+
+        function addKeyLogRow() {
+            keyLogRowCount++;
+            const tbody = document.getElementById('keyLogBody');
+            const tr = document.createElement('tr');
+            const today = new Date().toISOString().slice(0, 10);
+            tr.innerHTML = `
+                <td class="row-number">1</td>
+                <td><input type="date" name="kl_date[]" value="${today}"></td>
+                <td><input type="time" name="kl_time[]"></td>
+                <td><input type="text" name="kl_name[]" placeholder="이름"></td>
+                <td><input type="tel" name="kl_contact[]" placeholder="010-0000-0000"></td>
+                <td><input type="text" name="kl_unit[]" placeholder="호수"></td>
+                <td><input type="text" name="kl_reason[]" placeholder="불출 사유"></td>
+                <td><input type="time" name="kl_returnTime[]"></td>
+                <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">삭제</button></td>
+            `;
+            tbody.insertBefore(tr, tbody.firstChild);
+            tr.querySelectorAll('input[type="tel"]').forEach(i => i.addEventListener('input', function() { formatPhoneNumber(this); }));
+            renumberRows('keyLogBody');
+        }
+
+        function saveKeyLogExcel() {
+            const dates = Array.from(document.querySelectorAll('input[name="kl_date[]"]')).map(el => el.value);
+            const times = Array.from(document.querySelectorAll('input[name="kl_time[]"]')).map(el => el.value);
+            const names = Array.from(document.querySelectorAll('input[name="kl_name[]"]')).map(el => el.value);
+            const contacts = Array.from(document.querySelectorAll('input[name="kl_contact[]"]')).map(el => el.value);
+            const units = Array.from(document.querySelectorAll('input[name="kl_unit[]"]')).map(el => el.value);
+            const reasons = Array.from(document.querySelectorAll('input[name="kl_reason[]"]')).map(el => el.value);
+            const returnTimes = Array.from(document.querySelectorAll('input[name="kl_returnTime[]"]')).map(el => el.value);
+
+            // 빈 행 체크
+            let hasData = false;
+            for (let i = 0; i < dates.length; i++) {
+                if (dates[i] || names[i] || units[i]) { hasData = true; break; }
+            }
+            if (!hasData) { alert('최소 한 개의 기록을 입력해주세요.'); return; }
+
+            const wb = XLSX.utils.book_new();
+            const wsData = [];
+
+            // 타이틀
+            wsData.push(['키분출대장 (당일불출용)']);
+            wsData.push([]);
+            // 헤더
+            wsData.push(['일자\n(년,월,일)', '시간', '이름', '연락처', '호수', '불출 사유(예: 000호 공사)', '반납 시간']);
+
+            // 데이터 행
+            for (let i = 0; i < dates.length; i++) {
+                if (dates[i] || names[i] || units[i] || contacts[i] || reasons[i]) {
+                    wsData.push([dates[i], times[i], names[i], contacts[i], units[i], reasons[i], returnTimes[i]]);
+                }
+            }
+
+            // 빈 행 추가 (최소 20행)
+            const currentRows = wsData.length;
+            for (let i = currentRows; i < 24; i++) {
+                wsData.push(['', '', '', '', '', '', '']);
+            }
+
+            const sheet = XLSX.utils.aoa_to_sheet(wsData);
+            
+            // 병합: 타이틀
+            sheet['!merges'] = [
+                {s:{r:0,c:0}, e:{r:0,c:6}}
+            ];
+
+            // 열 너비
+            sheet['!cols'] = [
+                {wch: 14}, // 일자
+                {wch: 10}, // 시간
+                {wch: 12}, // 이름
+                {wch: 16}, // 연락처
+                {wch: 10}, // 호수
+                {wch: 28}, // 불출 사유
+                {wch: 10}  // 반납 시간
+            ];
+
+            XLSX.utils.book_append_sheet(wb, sheet, '키분출');
+
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+            XLSX.writeFile(wb, `키분출대장_${dateStr}.xlsx`);
+            showSuccess('✓ 키불출대장 Excel 파일이 저장되었습니다!');
+        }
+
+        function saveKeyLogPDF() {
+            generatePDF('.container', `키분출대장_${new Date().toISOString().slice(0,10)}.pdf`, null);
+        }
+
+        function resetKeyLog() {
+            if (!confirm('키불출대장을 초기화하시겠습니까?')) return;
+            const tbody = document.getElementById('keyLogBody');
+            tbody.innerHTML = `
+                <tr>
+                    <td class="row-number">1</td>
+                    <td><input type="date" name="kl_date[]"></td>
+                    <td><input type="time" name="kl_time[]"></td>
+                    <td><input type="text" name="kl_name[]" placeholder="이름"></td>
+                    <td><input type="tel" name="kl_contact[]" placeholder="010-0000-0000"></td>
+                    <td><input type="text" name="kl_unit[]" placeholder="호수"></td>
+                    <td><input type="text" name="kl_reason[]" placeholder="불출 사유"></td>
+                    <td><input type="time" name="kl_returnTime[]"></td>
+                    <td></td>
+                </tr>`;
+            keyLogRowCount = 1;
+            tbody.querySelectorAll('input[type="tel"]').forEach(i => i.addEventListener('input', function() { formatPhoneNumber(this); }));
+        }
+
+        // ============================================
+        // ===== 공기구대여 관리대장 기능 =====
+        // ============================================
+        let toolRentalRowCount = 1;
+
+        function addToolRentalRow() {
+            toolRentalRowCount++;
+            const tbody = document.getElementById('toolRentalBody');
+            const tr = document.createElement('tr');
+            const today = new Date().toISOString().slice(0, 10);
+            tr.innerHTML = `
+                <td class="row-number">1</td>
+                <td><input type="date" name="tr_date[]" value="${today}"></td>
+                <td><input type="text" name="tr_unit[]" placeholder="호실/상호"></td>
+                <td><input type="text" name="tr_name[]" placeholder="이름"></td>
+                <td><input type="tel" name="tr_contact[]" placeholder="010-0000-0000"></td>
+                <td><input type="text" name="tr_tool[]" placeholder="대여 공구 명"></td>
+                <td><input type="time" name="tr_returnTime[]"></td>
+                <td><input type="text" name="tr_signature[]" placeholder="서명"></td>
+                <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">삭제</button></td>
+            `;
+            tbody.insertBefore(tr, tbody.firstChild);
+            tr.querySelectorAll('input[type="tel"]').forEach(i => i.addEventListener('input', function() { formatPhoneNumber(this); }));
+            renumberRows('toolRentalBody');
+        }
+
+        function saveToolRentalExcel() {
+            const dates = Array.from(document.querySelectorAll('input[name="tr_date[]"]')).map(el => el.value);
+            const units = Array.from(document.querySelectorAll('input[name="tr_unit[]"]')).map(el => el.value);
+            const names = Array.from(document.querySelectorAll('input[name="tr_name[]"]')).map(el => el.value);
+            const contacts = Array.from(document.querySelectorAll('input[name="tr_contact[]"]')).map(el => el.value);
+            const tools = Array.from(document.querySelectorAll('input[name="tr_tool[]"]')).map(el => el.value);
+            const returnTimes = Array.from(document.querySelectorAll('input[name="tr_returnTime[]"]')).map(el => el.value);
+            const signatures = Array.from(document.querySelectorAll('input[name="tr_signature[]"]')).map(el => el.value);
+
+            // 빈 행 체크
+            let hasData = false;
+            for (let i = 0; i < dates.length; i++) {
+                if (dates[i] || names[i] || units[i] || tools[i]) { hasData = true; break; }
+            }
+            if (!hasData) { alert('최소 한 개의 기록을 입력해주세요.'); return; }
+
+            const wb = XLSX.utils.book_new();
+            const wsData = [];
+
+            // 타이틀
+            wsData.push(['공기구 대여 관리 대장']);
+            wsData.push([]);
+            // 헤더 (2행 - 병합 구조 반영)
+            wsData.push(['일자\n(년,월,일)', '호실 / 상호', '이름', '연락처', '대여 공구 명', '반납확인', '']);
+            wsData.push(['', '', '', '', '', '반납시간', '확인서명']);
+
+            // 데이터 행
+            for (let i = 0; i < dates.length; i++) {
+                if (dates[i] || names[i] || units[i] || tools[i] || contacts[i]) {
+                    wsData.push([dates[i], units[i], names[i], contacts[i], tools[i], returnTimes[i], signatures[i]]);
+                }
+            }
+
+            // 빈 행 추가 (최소 17행)
+            const currentRows = wsData.length;
+            for (let i = currentRows; i < 17; i++) {
+                wsData.push(['', '', '', '', '', '', '']);
+            }
+
+            const sheet = XLSX.utils.aoa_to_sheet(wsData);
+
+            // 병합
+            sheet['!merges'] = [
+                {s:{r:0,c:0}, e:{r:0,c:6}},   // 타이틀
+                {s:{r:2,c:0}, e:{r:3,c:0}},   // 일자
+                {s:{r:2,c:1}, e:{r:3,c:1}},   // 호실/상호
+                {s:{r:2,c:2}, e:{r:3,c:2}},   // 이름
+                {s:{r:2,c:3}, e:{r:3,c:3}},   // 연락처
+                {s:{r:2,c:4}, e:{r:3,c:4}},   // 대여 공구 명
+                {s:{r:2,c:5}, e:{r:2,c:6}}    // 반납확인 (상위 병합)
+            ];
+
+            // 열 너비
+            sheet['!cols'] = [
+                {wch: 14}, // 일자
+                {wch: 14}, // 호실/상호
+                {wch: 12}, // 이름
+                {wch: 16}, // 연락처
+                {wch: 18}, // 대여 공구 명
+                {wch: 12}, // 반납시간
+                {wch: 12}  // 확인서명
+            ];
+
+            XLSX.utils.book_append_sheet(wb, sheet, '공기구대여');
+
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+            XLSX.writeFile(wb, `공기구대여_관리대장_${dateStr}.xlsx`);
+            showSuccess('✓ 공기구대여 관리대장 Excel 파일이 저장되었습니다!');
+        }
+
+        function saveToolRentalPDF() {
+            generatePDF('.container', `공기구대여_관리대장_${new Date().toISOString().slice(0,10)}.pdf`, null);
+        }
+
+        function resetToolRental() {
+            if (!confirm('공기구대여 관리대장을 초기화하시겠습니까?')) return;
+            const tbody = document.getElementById('toolRentalBody');
+            tbody.innerHTML = `
+                <tr>
+                    <td class="row-number">1</td>
+                    <td><input type="date" name="tr_date[]"></td>
+                    <td><input type="text" name="tr_unit[]" placeholder="호실/상호"></td>
+                    <td><input type="text" name="tr_name[]" placeholder="이름"></td>
+                    <td><input type="tel" name="tr_contact[]" placeholder="010-0000-0000"></td>
+                    <td><input type="text" name="tr_tool[]" placeholder="대여 공구 명"></td>
+                    <td><input type="time" name="tr_returnTime[]"></td>
+                    <td><input type="text" name="tr_signature[]" placeholder="서명"></td>
+                    <td></td>
+                </tr>`;
+            toolRentalRowCount = 1;
+            tbody.querySelectorAll('input[type="tel"]').forEach(i => i.addEventListener('input', function() { formatPhoneNumber(this); }));
+        }
+
+        // ===== 공통: 행 삭제 & 번호 재정렬 =====
+        function removeRow(btn) {
+            const tr = btn.closest('tr');
+            const tbody = tr.parentElement;
+            if (tbody.children.length <= 1) {
+                alert('최소 1개의 행은 유지해야 합니다.');
+                return;
+            }
+            tr.remove();
+            renumberRows(tbody.id);
+        }
+
+        function renumberRows(tbodyId) {
+            const tbody = document.getElementById(tbodyId);
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach((row, index) => {
+                row.querySelector('.row-number').textContent = index + 1;
+            });
+        }
+
+        // ===== 공통 유틸리티 =====
+        function formatPhoneNumber(input) {
+            let value = input.value.replace(/[^0-9]/g, '');
+            if (value.startsWith('02')) {
+                if (value.length > 2 && value.length <= 5) value = value.replace(/(\d{2})(\d+)/, '$1-$2');
+                else if (value.length > 5) value = value.replace(/(\d{2})(\d{3,4})(\d+)/, '$1-$2-$3');
+            } else if (value.startsWith('01')) {
+                if (value.length > 3 && value.length <= 7) value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+                else if (value.length > 7) value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+            } else {
+                if (value.length > 3 && value.length <= 6) value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+                else if (value.length > 6) value = value.replace(/(\d{3})(\d{3,4})(\d+)/, '$1-$2-$3');
+            }
+            input.value = value;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('input[type="tel"]').forEach(input => {
+                input.addEventListener('input', function() { formatPhoneNumber(this); });
+            });
+
+            ['sg_businessNumber', 'sg_ownerBusinessNumber', 'ot_businessNumber', 'ot_ownerBusinessNumber'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('input', function() {
+                        let v = this.value.replace(/[^0-9]/g, '');
+                        if (v.length > 3 && v.length <= 5) v = v.replace(/(\d{3})(\d+)/, '$1-$2');
+                        else if (v.length > 5) v = v.replace(/(\d{3})(\d{2})(\d+)/, '$1-$2-$3');
+                        this.value = v.substring(0, 12);
                     });
                 }
             });
-        });
 
-        // Navbar background on scroll
-        const nav = document.querySelector('nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                nav.style.background = 'rgba(10, 14, 39, 0.98)';
-                nav.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
-            } else {
-                nav.style.background = 'rgba(10, 14, 39, 0.95)';
-                nav.style.boxShadow = 'none';
+            // 오늘 날짜로 키불출대장 첫 행 기본값 설정
+            const today = new Date().toISOString().slice(0, 10);
+            const klDateInputs = document.querySelectorAll('input[name="kl_date[]"]');
+            if (klDateInputs.length > 0 && !klDateInputs[0].value) {
+                klDateInputs[0].value = today;
+            }
+            const trDateInputs = document.querySelectorAll('input[name="tr_date[]"]');
+            if (trDateInputs.length > 0 && !trDateInputs[0].value) {
+                trDateInputs[0].value = today;
             }
         });
-
-        // Add event listeners to experience items
-        document.querySelectorAll('.experience-item').forEach(item => {
-            item.addEventListener('mouseenter', function() {
-                this.style.background = 'linear-gradient(135deg, rgba(100, 255, 218, 0.15) 0%, transparent 100%)';
-            });
-            item.addEventListener('mouseleave', function() {
-                this.style.background = 'linear-gradient(135deg, rgba(100, 255, 218, 0.03) 0%, transparent 100%)';
-            });
-        });
-
-        // Console message
-        console.log(
-            '%c👨‍💻 최건혁 - 소프트웨어 개발자',
-            'font-size: 20px; color: #64ffda; font-weight: bold; text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);'
-        );
-        console.log(
-            '%c좋은 디지털 경험을 만드는 것을 좋아합니다.',
-            'font-size: 14px; color: #ccd6f6;'
-        );
     </script>
 </body>
 </html>
