@@ -332,8 +332,8 @@ function testList() {
   return r;
 }
 
-function testAddAndDeleteMemo() {
-  var r = addMemo('karim', { author: '테스트', role: '점검', content: '연결 점검용 메모입니다. 지워도 됩니다.' });
+function testAddMemo() {
+  var r = addMemo('karim', { author: '테스트', role: '점검', content: '연결 점검용 메모입니다. 시트에서 직접 지우시면 됩니다.' });
   Logger.log(JSON.stringify(r));
   return r;
 }
