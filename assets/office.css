@@ -469,31 +469,35 @@ textarea { resize: vertical; min-height: 92px; line-height: 1.55; }
   .memo-list { max-height: none; }
 }
 @media (max-width: 760px) {
-  .topbar-inner { padding: 9px 14px; gap: 10px; }
+  .topbar-inner { padding: 9px 14px; gap: 10px; flex-wrap: wrap; }
   .brand-text span { display: none; }
   .nav-tabs { order: 3; width: 100%; margin-top: 2px; }
   .nav-tabs a { flex: 1; text-align: center; }
-  .topbar-inner { flex-wrap: wrap; }
-  .sync-pill span.txt { display: none; }
-  .sync-pill { padding: 6px 8px; }
+  .sync-pill { padding: 6px 10px; }
   .page { padding: 14px 14px 70px; }
   .hero { padding: 24px 20px 20px; border-radius: 18px; }
   .hero h1 { font-size: 22px; }
   .hero-meta { gap: 12px 18px; }
-  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .stat { padding: 10px 12px; border-radius: 13px; }
+  .stats {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px;
+    scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  }
+  .stats::-webkit-scrollbar { display: none; }
+  .stat { flex: 0 0 auto; min-width: 112px; scroll-snap-align: start; padding: 10px 12px; border-radius: 13px; }
   .stat .v { font-size: 21px; }
   .task-grid { grid-template-columns: 1fr; }
+  .toolbar .grow { display: none; }
+  .toolbar .search { flex: 1 1 100%; }
   .search input { width: 100%; }
-  .toolbar .search { flex: 1 1 100%; order: 5; }
   .modal-card { border-radius: 18px; }
   /* iOS Safari 자동 확대 방지 */
   input[type="text"], textarea, select { font-size: 16px; }
-  .search input, .select-sm, .status-select { font-size: 14px; }
+  .select-sm, .status-select { font-size: 14px; }
   .search input { font-size: 16px; }
 }
 @media (max-width: 420px) {
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sync-pill span.txt { display: none; }
+  .sync-pill { padding: 6px 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
