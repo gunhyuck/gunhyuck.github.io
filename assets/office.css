@@ -158,7 +158,7 @@ button { cursor: pointer; border: 0; background: none; }
   margin-bottom: 12px;
 }
 .hero h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.25; }
-.hero p { margin-top: 7px; font-size: 13.5px; color: rgba(255, 255, 255, .78); max-width: 60ch; }
+.hero p { margin-top: 7px; font-size: 13.5px; color: rgba(255, 255, 255, .78); max-width: 660px; }
 .hero-meta {
   position: relative; z-index: 1;
   margin-top: 22px; padding-top: 16px;
@@ -487,6 +487,10 @@ textarea { resize: vertical; min-height: 92px; line-height: 1.55; }
   .search input { width: 100%; }
   .toolbar .search { flex: 1 1 100%; order: 5; }
   .modal-card { border-radius: 18px; }
+  /* iOS Safari 자동 확대 방지 */
+  input[type="text"], textarea, select { font-size: 16px; }
+  .search input, .select-sm, .status-select { font-size: 14px; }
+  .search input { font-size: 16px; }
 }
 @media (max-width: 420px) {
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }

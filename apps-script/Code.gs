@@ -134,8 +134,9 @@ function getSheet(name, headers) {
   return sheet;
 }
 
-function readObjects(sheetName, headers) {
+function readObjects(sheetName, headers, dateFmt) {
   var sheet = getSheet(sheetName, headers);
+  var fmt = dateFmt || 'yyyy-MM-dd HH:mm';
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return [];
   var width = Math.max(sheet.getLastColumn(), headers.length);
@@ -147,7 +148,7 @@ function readObjects(sheetName, headers) {
     var empty = true;
     for (var c = 0; c < headers.length; c++) {
       var v = row[c];
-      if (v instanceof Date) v = Utilities.formatDate(v, TZ, 'yyyy-MM-dd');
+      if (v instanceof Date) v = Utilities.formatDate(v, TZ, fmt);
       obj[headers[c]] = v === null || v === undefined ? '' : String(v).trim();
       if (obj[headers[c]] !== '') empty = false;
     }
@@ -170,8 +171,8 @@ function listAll(site) {
   var cfg = SITES[site];
   return {
     ok: true,
-    tasks: readObjects(cfg.tasks, TASK_HEADERS),
-    memos: readObjects(cfg.memos, MEMO_HEADERS),
+    tasks: readObjects(cfg.tasks, TASK_HEADERS, 'yyyy-MM-dd'),
+    memos: readObjects(cfg.memos, MEMO_HEADERS, 'yyyy-MM-dd HH:mm'),
     serverTime: nowStamp()
   };
 }
