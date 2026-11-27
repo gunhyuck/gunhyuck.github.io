@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b3b38">
+<title>카림애비뉴 합동 비서실</title>
+<meta name="description" content="카림애비뉴 관리단·현장·비서가 함께 보는 안건과 공유 메모. 구글 시트와 실시간 연동.">
+<link rel="stylesheet" href="../assets/office.css">
+</head>
+<body data-site="karim">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="./">
+      <span class="brand-mark">카</span>
+      <span class="brand-text">
+        <b>카림애비뉴 합동 비서실</b>
+        <span>KARIM AVENUE · SHARED OFFICE</span>
+      </span>
+    </a>
+    <span class="topbar-spacer"></span>
+    <nav class="nav-tabs" aria-label="비서실 이동">
+      <a href="./" class="on">카림애비뉴</a>
+      <a href="../startower/">스타타워</a>
+    </nav>
+    <button class="sync-pill" id="syncPill" type="button" title="클릭하면 새로고침">
+      <span class="dot"></span><span class="txt">불러오는 중…</span>
+    </button>
+    <button class="icon-btn" id="gearBtn" type="button" title="연동 설정" aria-label="연동 설정">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3.2"/>
+        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 8.9 19.3a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.7 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.7 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 15.06 4.7a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.36 9c.02.63.4 1.2 1.03 1.56H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1.03z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main class="page">
+  <section class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="hero-kicker">SHARED OFFICE · 동탄 카림애비뉴</div>
+        <h1>카림애비뉴 합동 비서실</h1>
+        <p>관리단 · 현장 · 비서가 한 화면에서 안건과 메모를 함께 봅니다. 카드의 상태를 바꾸면 구글 시트에 바로 기록되고, 새 안건과 메모도 시트에 차곡차곡 쌓입니다.</p>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <span>진행 안건 <b id="heroTasks">–</b></span>
+      <span>공유 메모 <b id="heroMemos">–</b></span>
+      <span>연동 상태 <b id="syncState">확인 중</b></span>
+      <a href="https://docs.google.com/spreadsheets/d/1bWeBT0SEThBbFqP_87QkqgclWGYzk62wtM5iRYibu6k/edit" target="_blank" rel="noopener">구글 시트 열기 ↗</a>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="상태별 안건 수">
+    <button class="stat on" data-status="전체" type="button">
+      <span class="k"><i></i>전체</span><span class="v">0<small>건</small></span>
+    </button>
+    <button class="stat" data-status="대기" type="button">
+      <span class="k"><i></i>대기</span><span class="v">0<small>0%</small></span>
+    </button>
+    <button class="stat" data-status="진행중" type="button">
+      <span class="k"><i></i>진행중</span><span class="v">0<small>0%</small></span>
+    </button>
+    <button class="stat" data-status="검토중" type="button">
+      <span class="k"><i></i>검토중</span><span class="v">0<small>0%</small></span>
+    </button>
+    <button class="stat" data-status="완료" type="button">
+      <span class="k"><i></i>완료</span><span class="v">0<small>0%</small></span>
+    </button>
+  </section>
+
+  <div class="toolbar">
+    <div class="section-label">안건 현황 <span id="taskCount"></span></div>
+    <span class="grow"></span>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+      <input id="searchInput" type="text" placeholder="안건 · 담당 · 키워드 검색" autocomplete="off">
+    </div>
+    <select class="select-sm" id="categoryFilter" aria-label="분류 필터">
+      <option value="전체">분류 전체</option>
+    </select>
+    <button class="btn btn-primary" id="addTaskBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      새 안건 추가
+    </button>
+  </div>
+
+  <section class="task-grid" id="taskGrid" aria-live="polite"></section>
+
+  <section class="memo-wrap">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>비서실 공유 메모</h2>
+        <span class="count" id="memoCount">0</span>
+        <span class="spacer"></span>
+      </div>
+      <form class="memo-form" id="memoForm">
+        <div class="field">
+          <label for="memoWho">작성자</label>
+          <select id="memoWho">
+            <option value="최건혁 비서">최건혁 비서 (멍멍이)</option>
+            <option value="임하나 과장(비서)">임하나 과장(비서)</option>
+            <option value="정원석 대표">정원석 대표</option>
+            <option value="관리지원센터">관리지원센터</option>
+            <option value="__custom">직접 입력…</option>
+          </select>
+        </div>
+        <div class="field" id="memoWhoCustomWrap" style="display:none">
+          <input type="text" id="memoWhoCustom" placeholder="이름 (예: 반도건설 김과장)">
+        </div>
+        <div class="field">
+          <label for="memoRole">직함 · 소속 <span style="font-weight:500">(선택)</span></label>
+          <input type="text" id="memoRole" placeholder="예: 비서 · 과장 · 소장 · 현장">
+        </div>
+        <div class="field">
+          <label for="memoText">메모</label>
+          <textarea id="memoText" placeholder="안건 진행 상황, 현장 확인 사항, 새로 받은 연락 등을 남겨 주세요."></textarea>
+        </div>
+        <button class="btn btn-primary" id="memoSubmit" type="submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5"/></svg>
+          메모 남기기
+        </button>
+      </form>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>메모 기록</h2>
+        <span class="spacer"></span>
+        <span style="font-size:11.5px;color:var(--ink-3)">최근 순</span>
+      </div>
+      <div class="memo-list" id="memoList"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>최건혁 회장 비서실 · 카림애비뉴 합동 비서실</span>
+  <span class="spacer"></span>
+  <a href="https://docs.google.com/spreadsheets/d/1bWeBT0SEThBbFqP_87QkqgclWGYzk62wtM5iRYibu6k/edit" target="_blank" rel="noopener">피클 합동 비서실 DB ↗</a>
+  <a href="../startower/">스타타워 비서실 →</a>
+</footer>
+
+<!-- 새 안건 -->
+<div class="modal" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="taskModalTitle">새 안건 추가</h3>
+      <span class="spacer"></span>
+      <button class="icon-btn" type="button" data-close="taskModal" aria-label="닫기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form id="taskForm">
+      <div class="modal-body">
+        <div class="field">
+          <label for="taskTitle">안건 제목 *</label>
+          <input type="text" id="taskTitle" placeholder="예: 2층 화장실 배관 보수 견적" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="taskCategory">분류</label>
+            <input type="text" id="taskCategory" placeholder="예: 시설 / 행정" list="catList">
+            <datalist id="catList">
+              <option value="시설"><option value="시설/보험"><option value="시설/광고">
+              <option value="안내/IT"><option value="행정"><option value="소방/시설"><option value="승강기">
+            </datalist>
+          </div>
+          <div class="field">
+            <label for="taskStatus">상태</label>
+            <select id="taskStatus">
+              <option value="대기">대기</option>
+              <option value="진행중" selected>진행중</option>
+              <option value="검토중">검토중</option>
+              <option value="완료">완료</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="taskOwner">담당</label>
+            <input type="text" id="taskOwner" placeholder="예: 임하나 과장 · 정원석 대표">
+          </div>
+          <div class="field">
+            <label for="taskDue">기한</label>
+            <input type="text" id="taskDue" placeholder="예: 2026-12-05 / 매월">
+          </div>
+        </div>
+        <div class="field">
+          <label for="taskSummary">내용 요약</label>
+          <textarea id="taskSummary" placeholder="현재 상황과 다음에 할 일을 한두 줄로 적어 주세요." style="min-height:76px"></textarea>
+        </div>
+        <div class="field">
+          <label for="taskAuthor">작성자</label>
+          <input type="text" id="taskAuthor" placeholder="예: 최건혁 비서">
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" type="button" data-close="taskModal">취소</button>
+        <button class="btn btn-primary" id="taskSubmit" type="submit">안건 추가</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 연동 설정 -->
+<div class="modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="settingsTitle">구글 시트 연동</h3>
+      <span class="spacer"></span>
+      <button class="icon-btn" type="button" data-close="settingsModal" aria-label="닫기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p id="settingsState" style="font-size:13px;color:var(--ink-2)"></p>
+      <div class="field">
+        <label for="apiInput">Apps Script 웹 앱 주소</label>
+        <input type="text" id="apiInput" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="modal-note">
+        <b>연결 방법</b><br>
+        1. <a href="https://docs.google.com/spreadsheets/d/1bWeBT0SEThBbFqP_87QkqgclWGYzk62wtM5iRYibu6k/edit" target="_blank" rel="noopener" style="text-decoration:underline">피클 합동 비서실 DB</a> → 확장 프로그램 → Apps Script<br>
+        2. <code>Code.gs</code> 전체를 붙여넣고 저장 (시트 ID는 이미 들어 있습니다)<br>
+        3. 배포 → 새 배포 → 유형 <b>웹 앱</b>, 실행 <b>나</b>, 액세스 <b>모든 사용자</b> → 배포<br>
+        4. 나온 <code>/exec</code> 주소를 위에 붙여넣고 저장<br>
+        <span style="color:var(--ink-3)">※ 카림·스타타워 두 페이지에 같은 주소를 넣으면 됩니다. 주소를 넣기 전에는 이 브라우저에만 저장됩니다.</span>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" type="button" id="clearApi">연동 해제</button>
+      <span class="spacer" style="flex:1"></span>
+      <button class="btn btn-primary" type="button" id="saveApi">저장하고 연결</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<script src="../assets/data.js"></script>
+<script>
+  window.OFFICE_CONFIG = {
+    site: "karim",
+    idPrefix: "K",
+    defaultAuthor: "최건혁 비서",
+    apiDefault: ""
+  };
+</script>
+<script src="../assets/office.js"></script>
+</body>
+</html>
